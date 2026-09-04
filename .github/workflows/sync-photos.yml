@@ -1,0 +1,66 @@
+name: Sync photos
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 * * * *"
+  push:
+    paths:
+      - "photos/**"
+      - "photos-manifest.json"
+      - ".github/workflows/sync-photos.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull Drive images into photos/
+        run: |
+          python3 << 'PY'
+          import json, urllib.request
+          from pathlib import Path
+          man = json.loads(Path("photos-manifest.json").read_text())
+          out = Path("photos")
+          out.mkdir(exist_ok=True)
+          ok = 0
+          for f in man["files"]:
+              dest = out / f["name"]
+              url = "https://drive.google.com/uc?export=download&id=" + f["id"]
+              print("GET", f["name"], f["id"])
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent": "pet-review-sync"})
+                  with urllib.request.urlopen(req, timeout=60) as r:
+                      data = r.read()
+                  if len(data) < 2000 or data[:3] != b"\xff\xd8\xff":
+                      print(" skip not jpeg", f["name"], "bytes", len(data))
+                      continue
+                  dest.write_bytes(data)
+                  print(" wrote", dest, len(data))
+                  ok += 1
+              except Exception as e:
+                  print(" fail", f["name"], e)
+          names = sorted(p.name for p in out.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
+          Path("photos-list.js").write_text(
+              "const REPO_PHOTOS = " + json.dumps(["photos/" + n for n in names], ensure_ascii=False) + ";\n",
+              encoding="utf-8",
+          )
+          print("photos-list", names, "downloaded", ok)
+          PY
+
+      - name: Commit photos if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add photos photos-list.js
+          if git diff --cached --quiet; then
+            echo "no photo changes"
+          else
+            git commit -m "sync photos from Drive"
+            git push
+          fi
