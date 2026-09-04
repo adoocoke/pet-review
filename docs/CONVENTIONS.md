@@ -12,15 +12,15 @@
 ## 目录
 
 ```
-index.html          页面与交互
-scs.js              间隔复习
-sgroup.js           按原题 / 按知识点
-data.js             只放 ITEMS=[]、CARDS=[] 和上限说明
-data/<passage>.js   一篇原题一个分片
-data/cards.js       词卡
-photos/             原题 jpg，文件名 = data 里 photo 字段
+index.html            页面与交互
+srs.js                间隔复习
+group.js              按原题 / 按知识点
+data.js               只放 ITEMS=[]、CARDS=[] 和上限说明
+data/<passage>.js     一篇原题一个分片
+data/cards.js         词卡
+photos/               原题 jpg，文件名 = data 里 photo 字段
 photos-manifest.json  Drive id，给 Action
-photos-drive.js     照片地址表（可为空，网页用相对路径）
+photos-drive.js       照片地址表（可为空，网页用相对路径）
 ```
 
 不要把题库塞回单文件 `data.js`。
