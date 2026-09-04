@@ -29,6 +29,7 @@ function packProgress() {
     updatedAt: Date.now(),
     srs: state.srs || {},
     need: state.need || {},
+    wrong: state.wrong || {},
     tries: state.tries || []
   };
 }
@@ -36,6 +37,7 @@ function applyProgress(p) {
   if (!p) return;
   state.srs = p.srs || {};
   state.need = p.need || {};
+  state.wrong = p.wrong || {};
   state.tries = p.tries || [];
   ITEMS.forEach(it => {
     if (state.need[it.id] === undefined) state.need[it.id] = true;
@@ -44,15 +46,19 @@ function applyProgress(p) {
 }
 function recLived(r) {
   if (!r) return false;
-  return !!(r.last || r.streak || r.step || (r.tries && r.tries.length));
+  return !!(r.last || r.streak || r.step);
 }
 function recScore(r) {
   if (!r) return -1;
   return (r.last || 0) + (r.streak || 0) * 1000 + (r.step || 0) * 100;
 }
 function mergeProgress(a, b) {
-  const out = { v: 4, updatedAt: Math.max(a.updatedAt || 0, b.updatedAt || 0), srs: {}, need: {}, tries: [] };
-  const ids = new Set([].concat(Object.keys(a.srs || {}), Object.keys(b.srs || {}), Object.keys(a.need || {}), Object.keys(b.need || {})));
+  const out = { v: 4, updatedAt: Math.max(a.updatedAt || 0, b.updatedAt || 0), srs: {}, need: {}, wrong: {}, tries: [] };
+  const ids = new Set([].concat(
+    Object.keys(a.srs || {}), Object.keys(b.srs || {}),
+    Object.keys(a.need || {}), Object.keys(b.need || {}),
+    Object.keys(a.wrong || {}), Object.keys(b.wrong || {})
+  ));
   ids.forEach(id => {
     const x = (a.srs || {})[id];
     const y = (b.srs || {})[id];
@@ -66,9 +72,13 @@ function mergeProgress(a, b) {
     const fromA = pick === x;
     const needA = (a.need || {})[id];
     const needB = (b.need || {})[id];
-    if (pick && pick === x) out.need[id] = needA !== undefined ? needA : needB;
-    else out.need[id] = needB !== undefined ? needB : needA;
-    if (fromA && needA === undefined) out.need[id] = needB;
+    out.need[id] = fromA
+      ? (needA !== undefined ? needA : needB)
+      : (needB !== undefined ? needB : needA);
+    const wrongA = !!(a.wrong || {})[id];
+    const wrongB = !!(b.wrong || {})[id];
+    out.wrong[id] = fromA ? wrongA : wrongB;
+    if (!out.wrong[id]) delete out.wrong[id];
   });
   const seen = new Set();
   [].concat(a.tries || [], b.tries || []).forEach(t => {
@@ -157,7 +167,7 @@ async function pushRemote(attempt) {
     progressSha = (data.content && data.content.sha) || progressSha;
     const n = (state.tries || []).length;
     setSyncStatus("已写回仓库，共练过 " + n + " 次 · " + new Date().toLocaleString("zh-CN", { hour12: false }));
-    renderList(); renderLater(); renderLearned(); renderHistory();
+    renderList(); renderRedo(); renderLater(); renderLearned(); renderHistory();
   } catch (e) {
     setSyncStatus("写入失败：" + e.message);
   }
