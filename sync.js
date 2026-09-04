@@ -101,7 +101,8 @@ async function pullRemote() {
     setSyncStatus("拉取失败：" + e.message);
   }
 }
-async function pushRemote() {
+async function pushRemote(attempt) {
+  attempt = attempt || 0;
   if (!getToken()) {
     setSyncStatus("要写回仓库，先在设置里贴 token");
     return;
@@ -126,12 +127,12 @@ async function pushRemote() {
       headers: Object.assign({ "Content-Type": "application/json" }, authHeaders()),
       body: JSON.stringify(body)
     });
-    if (res.status === 409 || res.status === 422) {
-      await pullRemote();
-      return pushRemote();
+    if ((res.status === 409 || res.status === 422) && attempt < 2) {
+      progressSha = "";
+      return pushRemote(attempt + 1);
     }
     if (res.status === 401 || res.status === 403) {
-      setSyncStatus("token 无效或没有写权限，请重新贴");
+      setSyncStatus("token 无效或沠有写权限，请重新贴");
       return;
     }
     if (!res.ok) throw new Error("写入 " + res.status);
@@ -146,5 +147,5 @@ async function pushRemote() {
 function schedulePush() {
   if (!getToken()) return;
   clearTimeout(pushTimer);
-  pushTimer = setTimeout(pushRemote, 2000);
+  pushTimer = setTimeout(function () { pushRemote(0); }, 2000);
 }
