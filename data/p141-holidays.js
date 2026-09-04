@@ -1,0 +1,20 @@
+ITEMS.push(
+{id:"p141-q22",title:"Holidays 第 22 题 cost",meta:"KET Part 4 · p.141",
+prompt:"They didn't <span class=\"blank\">22</span> much, and people didn't need to travel very far.",
+options:[{key:"A",text:"A spend"},{key:"B",text:"B cost"},{key:"C",text:"C have"}],
+answer:"B",fill:"cost",ok:"They didn't cost much = 营地不贵。",bad:"spend 主语必须是人。They = holiday camps。",
+note:"<p>主语 They 指 camps，是东西不是人。</p><p>口诀：人 spend，东西 cost。</p>",
+photo:"photos/p141-holidays.jpg"},
+{id:"p141-q23",title:"Holidays 第 23 题 much",meta:"KET Part 4 · p.141",
+prompt:"it was <span class=\"blank\">23</span> cheaper to fly than ever before.",
+options:[{key:"A",text:"A many"},{key:"B",text:"B much"},{key:"C",text:"C more"}],
+answer:"B",fill:"much",ok:"much cheaper = 便宜得多。",bad:"many cheaper 错；more cheaper 是双重比较级。",
+note:"<p><b>much + 比较级</b>：much cheaper / much bigger。</p>",
+photo:"photos/p141-holidays.jpg"},
+{id:"p141-q24",title:"Holidays 第 24 题 countries",meta:"KET Part 4 · p.141",
+prompt:"travel to other <span class=\"blank\">24</span> for the first time.",
+options:[{key:"A",text:"A countries"},{key:"B",text:"B cities"},{key:"C",text:"C villages"}],
+answer:"A",fill:"countries",ok:"机票便宜了，第一次飞到别的国家。",bad:"cities / villages 和坐飞机第一次出国对不上。",
+note:"<p>1980s 坐飞机变便宜，所以第一次能去 other countries。</p>",
+photo:"photos/p141-holidays.jpg"}
+);

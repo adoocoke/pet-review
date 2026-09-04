@@ -1,0 +1,20 @@
+ITEMS.push(
+{id:"hosp-q25",title:"住院邮件 第 25 题 down",meta:"KET Part 5 · Fiona / Marry",
+prompt:"He fell <span class=\"blank\">25</span> the stairs yesterday.",
+options:[{key:"in",text:"in"},{key:"down",text:"down"},{key:"off",text:"off"}],
+answer:"down",fill:"down",ok:"fall down the stairs。",bad:"不是 fall in the stairs。",
+note:"<p>固定：<b>fall down the stairs</b>。</p>",
+photo:"photos/email-gavin-hospital.jpg"},
+{id:"hosp-q27",title:"住院邮件 第 27 题 because",meta:"KET Part 5",
+prompt:"That's good <span class=\"blank\">27</span> he doesn't like homework!",
+options:[{key:"idea",text:"idea"},{key:"because",text:"because"},{key:"so",text:"so"}],
+answer:"because",fill:"because",ok:"That's good because he doesn't like homework.",bad:"idea 不能填。so 会把因果写反。",
+note:"<p><b>because</b> 接原因。idea 是名词。</p>",
+photo:"photos/email-gavin-hospital.jpg"},
+{id:"hosp-q30",title:"住院邮件 第 30 题 herself",meta:"KET Part 5",
+prompt:"my mum cut <span class=\"blank\">30</span> when she was making dinner",
+options:[{key:"it",text:"it"},{key:"herself",text:"herself"},{key:"her",text:"her"}],
+answer:"herself",fill:"herself",ok:"cut herself = 妈妈切到自己。",bad:"cut it 没说切到谁。cut her 像切到另一个人。",
+note:"<p>主语 mum，受伤也是自己 → <b>herself</b>。</p>",
+photo:"photos/email-gavin-hospital.jpg"}
+);

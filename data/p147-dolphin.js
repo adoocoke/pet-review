@@ -1,0 +1,20 @@
+ITEMS.push(
+{id:"dol-q19",title:"Dolphin Hero 第 19 题 push",meta:"KET Part 4 · p.147",
+prompt:"tried to <span class=\"blank\">19</span> the whales back out to sea",
+options:[{key:"A",text:"A pull"},{key:"B",text:"B push"},{key:"C",text:"C call"}],
+answer:"B",fill:"push",ok:"push the whales back out to sea。",bad:"pull 能想，搭配是 push back out。",
+note:"<p>鲸搁浅在沙滩，把它们从沙滩<b>推回</b>海里：push ... back out to sea。</p>",
+photo:"photos/p147-dolphin.jpg"},
+{id:"dol-q20",title:"Dolphin Hero 第 20 题 tired",meta:"KET Part 4 · p.147",
+prompt:"They were getting <span class=\"blank\">20</span> and I was afraid they were going to die",
+options:[{key:"A",text:"A cold"},{key:"B",text:"B warm"},{key:"C",text:"C tired"}],
+answer:"C",fill:"tired",ok:"getting tired，才怕它们死。",bad:"cold 不如 tired 紧；warm 更不对。",
+note:"<p>鲸反复被送回海又游回沙滩，会越来越累 getting tired。</p>",
+photo:"photos/p147-dolphin.jpg"},
+{id:"dol-q22",title:"Dolphin Hero 第 22 题 straight",meta:"KET Part 4 · p.147",
+prompt:"She came <span class=\"blank\">22</span> to us",
+options:[{key:"A",text:"A left"},{key:"B",text:"B right"},{key:"C",text:"C straight"}],
+answer:"C",fill:"straight",ok:"came straight to us = 径直游过来。",bad:"不能说 came left to us。",
+note:"<p><b>come straight to somebody</b> = 径直过来。</p>",
+photo:"photos/p147-dolphin.jpg"}
+);

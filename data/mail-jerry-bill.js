@@ -1,0 +1,20 @@
+ITEMS.push(
+{id:"mail1-q27",title:"Jerry 邮件 第 27 题 from",meta:"KET Part 5 · 生日礼物",
+prompt:'I got some good presents <span class="blank">27</span> my parents too.',
+options:[{key:"with",text:"with"},{key:"from",text:"from"},{key:"by",text:"by"}],
+answer:"from",fill:"from",ok:"presents from my parents = 父母给的礼物。",bad:"和父母在一起才用 with；礼物是谁给的用 from。",
+note:"<p>书上先写 with，后改 from。</p><p><b>from somebody</b> = 来自某人。presents from my parents。</p><p>东西是谁给的 → from。</p>",
+photo:"photos/email-jerry-bill.jpg"},
+{id:"mail1-q28",title:"Jerry 邮件 第 28 题 than",meta:"KET Part 5 · 最容易混",
+prompt:"It's bigger <span class=\"blank\">28</span> my old one.",
+options:[{key:"of",text:"of"},{key:"then",text:"then"},{key:"than",text:"than"}],
+answer:"than",fill:"than",ok:"bigger than = 比旧的那台更大。",bad:"than 才是「比」。then 是然后，of 不能跟 bigger。",
+note:"<p>书上先写 of，红笔又写 then，两个都不对。</p><p><b>than</b> = 比。比较级后面固定接 than。</p><p><b>then</b> 读音像，意思是「然后」。</p>",
+photo:"photos/email-jerry-bill.jpg"},
+{id:"mail1-q29",title:"Jerry 邮件 第 29 题 on",meta:"KET Part 5",
+prompt:"it's got a really cool picture <span class=\"blank\">29</span> the top.",
+options:[{key:"in",text:"in"},{key:"on",text:"on"},{key:"at",text:"at"}],
+answer:"on",fill:"on",ok:"a picture on the top。",bad:"在顶部用 on the top，不是 in。",
+note:"<p>书上先写 in，后改 on。</p><p><b>on the top</b> = 在顶部。</p>",
+photo:"photos/email-jerry-bill.jpg"}
+);
