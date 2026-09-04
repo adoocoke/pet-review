@@ -41,13 +41,14 @@ label.lbl{font-size:13px;color:var(--muted);font-weight:650}
 ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </style></head>
 <body>
-<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.2</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.3</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
 <main>
 <div class="tabs" id="mainTabs">
 <button class="active" data-tab="list">今日复习</button>
 <button data-tab="byQ">按题目</button>
 <button data-tab="byTag">按知识点</button>
 <button data-tab="cards">单词词组卡</button>
+<button data-tab="learned">已学会</button>
 <button data-tab="history">学习历史</button>
 <button data-tab="settings">设置</button>
 </div>
@@ -56,6 +57,7 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 <section id="byTag" class="panel"></section>
 <section id="detail" class="panel"></section>
 <section id="cards" class="panel"></section>
+<section id="learned" class="panel"></section>
 <section id="history" class="panel">
 <div class="stats"><div class="stat"><b id="statTried">0</b><span>练习次数</span></div><div class="stat"><b id="statRight">0</b><span>做对</span></div><div class="stat"><b id="statNeed">0</b><span>今日到期</span></div></div>
 <div class="card" id="historyList"><p class="sub">还沠有记录。</p></div>
@@ -109,13 +111,15 @@ const KEY="pet-review-v4";
 let navList=[];
 function setNav(list){navList=(list&&list.length)?list.slice():ITEMS.slice();}
 function nextId(id){const i=navList.findIndex(x=>x.id===id);if(i<0||i>=navList.length-1)return null;return navList[i+1].id;}
+const LEARNED_STREAK=3;
+function isLearned(it){return ((state.srs[it.id]||{}).streak||0)>=LEARNED_STREAK;}
 const old3=JSON.parse(localStorage.getItem("pet-review-v3")||"null");
 const state=JSON.parse(localStorage.getItem(KEY)||"null")||old3||{tries:[],need:{},srs:{}};
 if(!state.srs)state.srs={};
 ITEMS.forEach(it=>{if(state.need[it.id]===undefined)state.need[it.id]=true;srsInit(it.id,state)});
 function save(opts){
   localStorage.setItem(KEY,JSON.stringify(state));
-  renderList();renderByQ();renderByTag();renderHistory();
+  renderList();renderByQ();renderByTag();renderLearned();renderHistory();
   if(!opts||!opts.skipPush)schedulePush();
 }
 function photoSrc(path){return (window.PHOTO&&PHOTO[path])||path}
@@ -124,14 +128,17 @@ document.querySelectorAll("#mainTabs button").forEach(b=>b.classList.remove("act
 document.querySelectorAll("main > .panel").forEach(p=>p.classList.remove("active"));
 btn.classList.add("active");document.getElementById(btn.dataset.tab).classList.add("active")}));
 function renderList(){const box=document.getElementById("list");
-const due=ITEMS.filter(it=>srsDue(state.srs[it.id]));
-const later=ITEMS.filter(it=>!srsDue(state.srs[it.id]));later.sort((a,b)=>state.srs[a.id].next-state.srs[b.id].next);
-const intro=`<div class="card"><p>今天到期 <b>${due.length}</b> 题。</p></div>`;
-const row=(it,isDue)=>`<div class="card item ${isDue?"due":""}" data-id="${it.id}"><div><span class="badge ${isDue?"":"ok"}">${isDue?"今日到期":srsWhen(state.srs[it.id])}</span><h3>${it.title}</h3><p class="sub">${it.tag} · ${it.point||""}</p></div><button class="ghost">开始</button></div>`;
-box.innerHTML=intro+due.map(it=>row(it,true)).join("")+later.map(it=>row(it,false)).join("");
-box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(due.concat(later));openDetail(el.dataset.id,"quiz")}))}
+const dueNew=ITEMS.filter(it=>srsDue(state.srs[it.id])&&!isLearned(it));
+const laterNew=ITEMS.filter(it=>!srsDue(state.srs[it.id])&&!isLearned(it));laterNew.sort((a,b)=>state.srs[a.id].next-state.srs[b.id].next);
+const learned=ITEMS.filter(isLearned);learned.sort((a,b)=>(state.srs[b.id].streak||0)-(state.srs[a.id].streak||0));
+const intro=`<div class="card"><p>今天要先练 <b>${dueNew.length}</b> 题。已学会 ${learned.length} 题放后面。</p></div>`;
+const row=(it,kind)=>`<div class="card item ${kind==="due"?"due":""}" data-id="${it.id}"><div><span class="badge ${kind==="due"?"":"ok"}">${kind==="due"?"今日到期":kind==="learned"?"已学会 · "+(state.srs[it.id].streak||0)+"次":srsWhen(state.srs[it.id])}</span><h3>${it.title}</h3><p class="sub">${it.tag} · ${it.point||""}</p></div><button class="ghost">开始</button></div>`;
+const learnedHead=learned.length?`<div class="card"><h3 style="margin:0 0 6px">已学会</h3><p class="sub">连对 ${LEARNED_STREAK} 次以上，优先降低。答错会从这里拿出来。</p></div>`:"";
+box.innerHTML=intro+dueNew.map(it=>row(it,"due")).join("")+laterNew.map(it=>row(it,"wait")).join("")+learnedHead+learned.map(it=>row(it,"learned")).join("");
+const queue=dueNew.concat(laterNew).concat(learned);
+box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(queue);openDetail(el.dataset.id,"quiz")}))}
 function itemRow(it){const rec=state.srs[it.id]||{streak:0};const due=srsDue(rec);
-return `<div class="card item ${due?"due":""}" data-id="${it.id}"><div><span class="badge ${due?"":"ok"}">${it.tag}</span><h3>${it.title}</h3><p class="sub">${it.point||""}</p></div><button class="ghost">开始</button></div>`}
+return `<div class="card item ${due&&!isLearned(it)?"due":""}" data-id="${it.id}"><div><span class="badge ${isLearned(it)||!due?"ok":""}">${isLearned(it)?"已学会":it.tag}</span><h3>${it.title}</h3><p class="sub">${it.point||""}</p></div><button class="ghost">开始</button></div>`}
 function renderByQ(){const box=document.getElementById("byQ");const map=itemsByPassage();
 box.innerHTML="<div class=\"card\"><p>按<b>原题</b>归堆。</p></div>"+Object.keys(map).map(name=>{const list=map[name];return `<div class="card"><h3 style="margin:0 0 8px">${name}</h3><p class="sub">${list.length} 道</p></div>`+list.map(itemRow).join("")}).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByPassage()[it.passage])||[it]);openDetail(el.dataset.id,"quiz")}))}
@@ -167,7 +174,12 @@ if(!nid){nextBtn.disabled=true;nextBtn.textContent="已经是最后一题";}else
 function renderCards(){const box=document.getElementById("cards");box.innerHTML=CARDS.map(c=>`<div class="card flip" data-front="${c[0]}" data-back="${c[1]}" data-hint="${c[2]}"></div>`).join("");
 box.querySelectorAll(".flip").forEach(card=>{card.innerHTML=`<div class="front"><div class="cn">${card.dataset.front}</div><div class="hint">点击看英文</div></div><div class="back" hidden><div class="en">${card.dataset.back}</div><div class="hint">${card.dataset.hint}</div></div>`;
 card.onclick=()=>{const f=card.querySelector(".front"),b=card.querySelector(".back"),show=b.hidden;f.hidden=show;b.hidden=!show}})}
-function renderHistory(){document.getElementById("statTried").textContent=state.tries.length;document.getElementById("statRight").textContent=state.tries.filter(t=>t.ok).length;document.getElementById("statNeed").textContent=ITEMS.filter(it=>srsDue(state.srs[it.id])).length;
+function renderLearned(){const box=document.getElementById("learned");
+const list=ITEMS.filter(isLearned);
+if(!list.length){box.innerHTML='<div class="card"><p>还沠有已学会的题。连对 '+LEARNED_STREAK+' 次会进这里。</p></div>';return;}
+box.innerHTML='<div class="card"><p>连对 <b>'+LEARNED_STREAK+'</b> 次以上的题。答错会回到今日复习。</p></div>'+list.map(it=>{const rec=state.srs[it.id]||{};return `<div class="card item" data-id="${it.id}"><div><span class="badge ok">已学会 · ${rec.streak||0}次</span><h3>${it.title}</h3><p class="sub">${it.tag} · ${it.point||""}</p></div><button class="ghost">再练</button></div>`}).join("");
+box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(list);openDetail(el.dataset.id,"quiz")}))}
+function renderHistory(){document.getElementById("statTried").textContent=state.tries.length;document.getElementById("statRight").textContent=state.tries.filter(t=>t.ok).length;document.getElementById("statNeed").textContent=ITEMS.filter(it=>srsDue(state.srs[it.id])&&!isLearned(it)).length;
 const box=document.getElementById("historyList");if(!state.tries.length){box.innerHTML='<p class="sub">还沠有记录。</p>';return;}
 const names=Object.fromEntries(ITEMS.map(it=>[it.id,it.title]));
 box.innerHTML=state.tries.slice().reverse().slice(0,40).map(t=>{const time=new Date(t.at).toLocaleString("zh-CN",{hour12:false});return `<div class="history-item"><span>${time}</span><span>${t.note||((t.ok?"做对 ":"未掌握 ")+(names[t.id]||""))}</span></div>`}).join("")}
@@ -180,6 +192,6 @@ function bindSettings(){
   document.getElementById("pushNow").onclick=()=>pushRemote();
   setSyncStatus(getToken()?"已有 token，可以写回仓库":"读取不要 token；要写回仓库请贴 token");
 }
-renderList();renderByQ();renderByTag();renderCards();renderHistory();bindSettings();
+renderList();renderByQ();renderByTag();renderCards();renderLearned();renderHistory();bindSettings();
 pullRemote();
 </script></body></html>
