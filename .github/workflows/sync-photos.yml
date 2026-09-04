@@ -1,67 +1,85 @@
-name: Sync photos
+name: Sync photos from Drive
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "15 * * * *"
+    - cron: "20 * * * *"
   push:
     paths:
-      - "photos/**"
       - "photos-manifest.json"
       - ".github/workflows/sync-photos.yml"
 
 permissions:
   contents: write
 
+concurrency:
+  group: sync-photos
+  cancel-in-progress: false
+
 jobs:
   sync:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Pull Drive images into photos/
+      - name: Install gdown
+        run: pip install -q gdown
+
+      - name: Download Drive files into photos/
         run: |
           python3 << 'PY'
-          import json, urllib.request
+          import json, subprocess, sys
           from pathlib import Path
           man = json.loads(Path("photos-manifest.json").read_text())
           out = Path("photos")
           out.mkdir(exist_ok=True)
           ok = 0
-          for f in man["files"]:
+          folder = man.get("folder")
+          if folder:
+              tmp = Path("_drive_folder")
+              tmp.mkdir(exist_ok=True)
+              print("gdown folder", folder)
+              r = subprocess.run(
+                  ["gdown", "--folder", folder, "-O", str(tmp), "--remaining-ok"],
+                  capture_output=True, text=True,
+              )
+              print(r.stdout)
+              print(r.stderr)
+              for p in tmp.rglob("*"):
+                  if p.is_file() and p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}:
+                      dest = out / p.name
+                      dest.write_bytes(p.read_bytes())
+                      print("copied folder file", dest, dest.stat().st_size)
+                      ok += 1
+          for f in man.get("files", []):
               dest = out / f["name"]
-              urls = [
-                  "https://drive.google.com/thumbnail?id=" + f["id"] + "&sz=w2000",
-                  "https://lh3.googleusercontent.com/d/" + f["id"],
-                  "https://drive.google.com/uc?export=download&confirm=t&id=" + f["id"],
-              ]
-              print("GET", f["name"])
-              saved = False
-              for url in urls:
-                  try:
-                      req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 pet-review-sync"})
-                      with urllib.request.urlopen(req, timeout=60) as r:
-                          data = r.read()
-                      if len(data) >= 2000 and data[:3] == b"\xff\xd8\xff":
-                          dest.write_bytes(data)
-                          print(" wrote", dest, len(data), "via", url[:48])
-                          ok += 1
-                          saved = True
-                          break
-                      print(" not jpeg", len(data), "via", url[:48])
-                  except Exception as e:
-                      print(" fail", url[:48], e)
-              if not saved:
-                  print(" MISSING", f["name"])
+              if dest.exists() and dest.stat().st_size > 2000:
+                  print("already have", dest.name, dest.stat().st_size)
+                  continue
+              print("gdown file", f["id"], "->", dest)
+              r = subprocess.run(
+                  ["gdown", "--id", f["id"], "-O", str(dest), "--fuzzy"],
+                  capture_output=True, text=True,
+              )
+              print(r.stdout)
+              print(r.stderr)
+              if dest.exists() and dest.read_bytes()[:3] == b"\xff\xd8\xff":
+                  print("ok", dest, dest.stat().st_size)
+                  ok += 1
+              else:
+                  if dest.exists():
+                      dest.unlink()
+                  print("FAILED", f["name"])
           names = sorted(p.name for p in out.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
           Path("photos-list.js").write_text(
-              "const REPO_PHOTOS = " + json.dumps(["photos/" + n for n in names], ensure_ascii=False) + ";\n",
-              encoding="utf-8",
+              "const REPO_PHOTOS = " + json.dumps(["photos/" + n for n in names], ensure_ascii=False) + ";\n"
           )
-          print("photos-list", names, "downloaded", ok)
+          print("result", names, "ok", ok)
+          if not names:
+              print("::error::Drive 文件夹没公开，Action 拉不到图。把文件夹设成「知道链接的任何人 / 查看」")
+              sys.exit(1)
           PY
 
       - name: Commit photos if changed
