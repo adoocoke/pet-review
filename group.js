@@ -13,7 +13,9 @@ const GROUP = {
   "dol-q20": { passage: "Dolphin Hero p.147", tag: "生词不会用", point: "getting tired" },
   "dol-q22": { passage: "Dolphin Hero p.147", tag: "词组", point: "come straight to" },
   "job-q25": { passage: "兼职邮件 Jessie", tag: "固定搭配", point: "work as" },
-  "job-q26": { passage: "兼职邮件 Jessie", tag: "介词用法", point: "from A to B" }
+  "job-q26": { passage: "兼职邮件 Jessie", tag: "介词用法", point: "from A to B" },
+  "films-q20": { passage: "The First Films p.153", tag: "生词不会用", point: "a comedy" },
+  "films-q21": { passage: "The First Films p.153", tag: "生词不会用", point: "got wet" }
 };
 const TAG_ORDER = ["介词用法", "语法错误", "固定搭配", "词组", "生词不会用"];
 ITEMS.forEach(function (it) {
