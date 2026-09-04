@@ -19,7 +19,8 @@ header,main{max-width:860px;margin:0 auto}header{padding:20px 20px 8px}
 .item h3{margin:4px 0 2px;font-size:16px}
 .badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--soft-red);color:var(--red)}
 .badge.ok{background:var(--soft-green);color:var(--green)}
-.q-en{font-size:18px;font-weight:650;margin:10px 0}.blank{display:inline-block;min-width:72px;border-bottom:2px solid var(--gold);text-align:center;color:var(--gold);font-weight:800}
+.q-en{font-size:18px;font-weight:650;margin:10px 0}
+.blank{display:inline-block;min-width:72px;border-bottom:2px solid var(--gold);text-align:center;color:var(--gold);font-weight:800}
 .choices{display:grid;gap:8px;margin:12px 0}
 .choices button{text-align:left;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:16px;cursor:pointer}
 .choices button.correct{background:var(--soft-green)}.choices button.wrong{background:var(--soft-red)}
@@ -30,11 +31,11 @@ button.ghost{background:#fff;border:1px solid var(--line);border-radius:12px;pad
 .flip{min-height:130px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}
 .flip .en{font-size:28px;font-weight:800}.flip .cn{font-size:20px}.flip .hint{color:var(--muted);font-size:13px;margin-top:8px}
 img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
+.note-body p{margin:0 0 10px}.due{background:#fff4e5}
 .history-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
 .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
 .stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
-.due{background:#fff4e5}.wait{opacity:.88}
 </style></head>
 <body>
 <header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目</h1><p class="sub">艾宾浩斯复习 · 到期先练 · 答对拉长间隔</p></header>
@@ -53,6 +54,12 @@ img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
 </section></main>
 <script src="data.js"></script>
 <script src="srs.js"></script>
+<script src="img-p135-central-park.js"></script>
+<script src="img-email-jerry-bill.js"></script>
+<script src="img-p141-holidays.js"></script>
+<script src="img-email-gavin-hospital.js"></script>
+<script src="img-p147-dolphin.js"></script>
+<script src="img-email-jessie-job.js"></script>
 <script>
 const KEY="pet-review-v4";
 const old3=JSON.parse(localStorage.getItem("pet-review-v3")||"null");
@@ -60,18 +67,17 @@ const state=JSON.parse(localStorage.getItem(KEY)||"null")||old3||{tries:[],need:
 if(!state.srs)state.srs={};
 ITEMS.forEach(it=>{if(state.need[it.id]===undefined)state.need[it.id]=true;srsInit(it.id,state)});
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderList();renderHistory()}
+function photoSrc(path){return (window.PHOTO&&PHOTO[path])||path}
 document.querySelectorAll("#mainTabs button").forEach(btn=>btn.addEventListener("click",()=>{
 document.querySelectorAll("#mainTabs button").forEach(b=>b.classList.remove("active"));
 document.querySelectorAll("main > .panel").forEach(p=>p.classList.remove("active"));
 btn.classList.add("active");document.getElementById(btn.dataset.tab).classList.add("active")}));
 function renderList(){const box=document.getElementById("list");
 const due=ITEMS.filter(it=>srsDue(state.srs[it.id]));
-const later=ITEMS.filter(it=>!srsDue(state.srs[it.id]));
-later.sort((a,b)=>state.srs[a.id].next-state.srs[b.id].next);
-const intro=`<div class="card"><p><b>艾宾浩斯间隔：</b>20分钟 → 1小时 → 今天晚些 → 明天 → 2天 → 4天 → 7天 → 15天 → 31天。</p><p class="sub">答对进入下一格，答错或「还要复习」回到 20 分钟后。到期题排最上面。</p><p>今天到期 <b>${due.length}</b> 题</p></div>`;
-const row=(it,isDue)=>{const rec=state.srs[it.id];const step=SRS_STEPS[rec.step]?SRS_STEPS[rec.step].label:"现在";
-return `<div class="card item ${isDue?"due":"wait"}" data-id="${it.id}"><div><span class="badge ${isDue?"":"ok"}">${isDue?"今日到期":srsWhen(rec)}</span><h3>${it.title}</h3><p class="sub">${it.meta} · 下一格 ${step} · 连续对 ${rec.streak||0} 次</p></div><button class="ghost">${isDue?"开始":"提前练"}</button></div>`};
-box.innerHTML=intro+(due.length?"<p class='sub'>到期</p>":"")+due.map(it=>row(it,true)).join("")+(later.length?"<p class='sub'>还没到时间</p>":"")+later.map(it=>row(it,false)).join("");
+const later=ITEMS.filter(it=>!srsDue(state.srs[it.id]));later.sort((a,b)=>state.srs[a.id].next-state.srs[b.id].next);
+const intro=`<div class="card"><p><b>艾宾浩斯间隔：</b>20分钟 → 1小时 → 今天晚些 → 明天 → 2天 → 4天 → 7天 → 15天 → 31天。</p><p>今天到期 <b>${due.length}</b> 题</p></div>`;
+const row=(it,isDue)=>{const rec=state.srs[it.id];return `<div class="card item ${isDue?"due":""}" data-id="${it.id}"><div><span class="badge ${isDue?"":"ok"}">${isDue?"今日到期":srsWhen(rec)}</span><h3>${it.title}</h3><p class="sub">${it.meta} · 连续对 ${rec.streak||0} 次</p></div><button class="ghost">${isDue?"开始":"提前练"}</button></div>`};
+box.innerHTML=intro+due.map(it=>row(it,true)).join("")+later.map(it=>row(it,false)).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>openDetail(el.dataset.id,"quiz")))}
 function openDetail(id,tab){const it=ITEMS.find(x=>x.id===id);const el=document.getElementById("detail");
 el.innerHTML=`<div class="row"><button class="ghost" id="backList">← 今日复习</button></div>
@@ -79,9 +85,9 @@ el.innerHTML=`<div class="row"><button class="ghost" id="backList">← 今日复
 <button data-sub="quiz" class="${tab==="quiz"?"active":""}">再做一次</button>
 <button data-sub="note" class="${tab==="note"?"active":""}">错因笔记</button>
 <button data-sub="photo" class="${tab==="photo"?"active":""}">看原题照片</button></div>
-<div id="sub-quiz" class="panel ${tab==="quiz"?"active":""}"><div class="card"><span class="badge">错题 / 拿不准</span><div class="q-en">${it.prompt}</div><p>选择能填进空格的词。</p><div class="choices" id="choices"></div><div id="result" class="explain" hidden></div><div class="row"><button class="ghost" id="retry">再练一遍</button><button class="primary" id="markAgain">这题还要复习</button></div></div></div>
-<div id="sub-note" class="panel ${tab==="note"?"active":""}"><div class="card"><span class="badge">错因</span><h3>${it.title}</h3>${it.note}</div></div>
-<div id="sub-photo" class="panel ${tab==="photo"?"active":""}"><div class="card"><p>原题照片 · ${it.meta}</p><img class="page" src="${it.photo}" alt="${it.title}"></div></div>`;
+<div id="sub-quiz" class="panel ${tab==="quiz"?"active":""}"><div class="card"><span class="badge">错题 / 拿不准</span><div class="q-en">${it.prompt}</div><div class="choices" id="choices"></div><div id="result" class="explain" hidden></div><div class="row"><button class="ghost" id="retry">再练一遍</button><button class="primary" id="markAgain">这题还要复习</button></div></div></div>
+<div id="sub-note" class="panel ${tab==="note"?"active":""}"><div class="card"><span class="badge">错因</span><h3>${it.title}</h3><div class="note-body">${it.note}</div></div></div>
+<div id="sub-photo" class="panel ${tab==="photo"?"active":""}"><div class="card"><p>原题照片 · ${it.meta}</p><img class="page" src="${photoSrc(it.photo)}" alt="${it.title}"></div></div>`;
 document.querySelectorAll("#mainTabs button").forEach(b=>b.classList.remove("active"));
 document.querySelectorAll("main > .panel").forEach(p=>p.classList.remove("active"));el.classList.add("active");
 document.getElementById("backList").onclick=()=>document.querySelector('#mainTabs button[data-tab="list"]').click();
@@ -93,17 +99,16 @@ b.classList.add(ok?"correct":"wrong");choices.querySelector('[data-key="'+it.ans
 const blank=el.querySelector(".blank");if(blank)blank.textContent=it.fill;
 const rec=srsMark(srsInit(it.id,state),ok);state.need[it.id]=!ok;
 const result=document.getElementById("result");result.hidden=false;
-result.innerHTML=(ok?"<strong>对了。</strong> ":"<strong>这题容易错。</strong> ")+(ok?it.ok:it.bad)+"<p>下次复习：<b>"+SRS_STEPS[rec.step].label+"</b>（"+srsWhen(rec)+"）</p>";
-state.tries.push({at:new Date().toISOString(),id:it.id,ok,next:rec.next,step:rec.step});save()};choices.appendChild(b)});
+result.innerHTML=(ok?"<strong>对了。</strong> ":"<strong>这题容易错。</strong> ")+(ok?it.ok:it.bad)+"<p>下次复习：<b>"+SRS_STEPS[rec.step].label+"</b></p>";
+state.tries.push({at:new Date().toISOString(),id:it.id,ok});save()};choices.appendChild(b)});
 document.getElementById("retry").onclick=()=>openDetail(id,"quiz");
-document.getElementById("markAgain").onclick=()=>{const rec=srsMark(srsInit(it.id,state),false);state.need[it.id]=true;state.tries.push({at:new Date().toISOString(),id:it.id,ok:false,note:"手动标记仍需复习",next:rec.next});save();alert("已排到 "+SRS_STEPS[rec.step].label+" 再练。")}}
+document.getElementById("markAgain").onclick=()=>{srsMark(srsInit(it.id,state),false);state.need[it.id]=true;save()}}
 function renderCards(){const box=document.getElementById("cards");box.innerHTML=CARDS.map(c=>`<div class="card flip" data-front="${c[0]}" data-back="${c[1]}" data-hint="${c[2]}"></div>`).join("");
 box.querySelectorAll(".flip").forEach(card=>{card.innerHTML=`<div class="front"><div class="cn">${card.dataset.front}</div><div class="hint">点击看英文</div></div><div class="back" hidden><div class="en">${card.dataset.back}</div><div class="hint">${card.dataset.hint}</div></div>`;
 card.onclick=()=>{const f=card.querySelector(".front"),b=card.querySelector(".back"),show=b.hidden;f.hidden=show;b.hidden=!show}})}
-function renderHistory(){const tried=state.tries.length,right=state.tries.filter(t=>t.ok).length,dueN=ITEMS.filter(it=>srsDue(state.srs[it.id])).length;
-document.getElementById("statTried").textContent=tried;document.getElementById("statRight").textContent=right;document.getElementById("statNeed").textContent=dueN;
+function renderHistory(){document.getElementById("statTried").textContent=state.tries.length;document.getElementById("statRight").textContent=state.tries.filter(t=>t.ok).length;document.getElementById("statNeed").textContent=ITEMS.filter(it=>srsDue(state.srs[it.id])).length;
 const box=document.getElementById("historyList");if(!state.tries.length)return;
 const names=Object.fromEntries(ITEMS.map(it=>[it.id,it.title]));
-box.innerHTML=state.tries.slice().reverse().slice(0,40).map(t=>{const time=new Date(t.at).toLocaleString("zh-CN",{hour12:false});const text=t.note||((t.ok?"做对 ":"未掌握 ")+(names[t.id]||t.id));return `<div class="history-item"><span>${time}</span><span>${text}</span></div>`}).join("")}
+box.innerHTML=state.tries.slice().reverse().slice(0,40).map(t=>{const time=new Date(t.at).toLocaleString("zh-CN",{hour12:false});return `<div class="history-item"><span>${time}</span><span>${t.note||((t.ok?"做对 ":"未掌握 ")+(names[t.id]||""))}</span></div>`}).join("")}
 renderList();renderCards();renderHistory();
 </script></body></html>
