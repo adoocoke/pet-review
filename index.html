@@ -26,7 +26,7 @@ header,main{max-width:860px;margin:0 auto}header{padding:20px 20px 8px}
 .choices button.correct{background:var(--soft-green)}.choices button.wrong{background:var(--soft-red)}
 .explain{background:var(--soft-blue);border-radius:12px;padding:12px 14px}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-button.primary{background:var(--ink);color:#fff;border:0;border-radius:12px;padding:10px 14px;cursor:pointer}
+button.primary{background:var(--ink);color:#fff;border:0;border-radius:12px;padding:10px 14px;cursor:pointer}button.primary:disabled{opacity:.45;cursor:default}
 button.ghost{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer}
 .flip{min-height:130px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}
 .flip .en{font-size:28px;font-weight:800}.flip .cn{font-size:20px}.flip .hint{color:var(--muted);font-size:13px;margin-top:8px}
@@ -41,7 +41,7 @@ label.lbl{font-size:13px;color:var(--muted);font-weight:650}
 ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </style></head>
 <body>
-<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.1</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.2</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
 <main>
 <div class="tabs" id="mainTabs">
 <button class="active" data-tab="list">今日复习</button>
@@ -76,14 +76,12 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </div>
 <div class="card">
 <p class="sub">怎么开 token</p>
-<p class="sub">GitHub 页面上按钮写的是 <b>Credentials</b>，下面再找 <b>New token</b>。这个地址才是 Fine-grained Personal Access Tokens：</p>
-<p class="sub"><a href="https://github.com/settings/personal-access-tokens/new?name=pet-review-progress&contents=write" target="_blank" rel="noopener">https://github.com/settings/personal-access-tokens/new</a></p>
-<p class="sub">列表页：<a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">https://github.com/settings/personal-access-tokens</a></p>
+<p class="sub">直接打这页：<a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">Fine-grained tokens 列表</a>。右上角 <b>Generate new token</b>。</p>
+<p class="sub">新建：<a href="https://github.com/settings/personal-access-tokens/new?name=pet-review-progress&contents=write" target="_blank" rel="noopener">https://github.com/settings/personal-access-tokens/new</a></p>
 <ol class="steps">
-<li>打开上面链接，或 Settings → <b>Credentials</b> → New token</li>
-<li>Repository access 只选 <code>adoocoke/pet-review</code></li>
-<li>Permissions → Contents = Read and write</li>
-<li>生成后贴到上面，电脑和平板各贴一次</li>
+<li>仓库只勾 <code>adoocoke/pet-review</code></li>
+<li>Contents = Read and write</li>
+<li>生成后贴到上面；列表里已有的 token 看不到密钥，找不到就新开</li>
 </ol>
 </div>
 </section>
@@ -108,6 +106,9 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 <script src="sync.js"></script>
 <script>
 const KEY="pet-review-v4";
+let navList=[];
+function setNav(list){navList=(list&&list.length)?list.slice():ITEMS.slice();}
+function nextId(id){const i=navList.findIndex(x=>x.id===id);if(i<0||i>=navList.length-1)return null;return navList[i+1].id;}
 const old3=JSON.parse(localStorage.getItem("pet-review-v3")||"null");
 const state=JSON.parse(localStorage.getItem(KEY)||"null")||old3||{tries:[],need:{},srs:{}};
 if(!state.srs)state.srs={};
@@ -128,22 +129,22 @@ const later=ITEMS.filter(it=>!srsDue(state.srs[it.id]));later.sort((a,b)=>state.
 const intro=`<div class="card"><p>今天到期 <b>${due.length}</b> 题。</p></div>`;
 const row=(it,isDue)=>`<div class="card item ${isDue?"due":""}" data-id="${it.id}"><div><span class="badge ${isDue?"":"ok"}">${isDue?"今日到期":srsWhen(state.srs[it.id])}</span><h3>${it.title}</h3><p class="sub">${it.tag} · ${it.point||""}</p></div><button class="ghost">开始</button></div>`;
 box.innerHTML=intro+due.map(it=>row(it,true)).join("")+later.map(it=>row(it,false)).join("");
-box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>openDetail(el.dataset.id,"quiz")))}
+box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(due.concat(later));openDetail(el.dataset.id,"quiz")}))}
 function itemRow(it){const rec=state.srs[it.id]||{streak:0};const due=srsDue(rec);
 return `<div class="card item ${due?"due":""}" data-id="${it.id}"><div><span class="badge ${due?"":"ok"}">${it.tag}</span><h3>${it.title}</h3><p class="sub">${it.point||""}</p></div><button class="ghost">开始</button></div>`}
 function renderByQ(){const box=document.getElementById("byQ");const map=itemsByPassage();
 box.innerHTML="<div class=\"card\"><p>按<b>原题</b>归堆。</p></div>"+Object.keys(map).map(name=>{const list=map[name];return `<div class="card"><h3 style="margin:0 0 8px">${name}</h3><p class="sub">${list.length} 道</p></div>`+list.map(itemRow).join("")}).join("");
-box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>openDetail(el.dataset.id,"quiz")))}
+box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByPassage()[it.passage])||[it]);openDetail(el.dataset.id,"quiz")}))}
 function renderByTag(){const box=document.getElementById("byTag");const map=itemsByTag();
 box.innerHTML="<div class=\"card\"><p>按<b>知识点</b>归堆。</p></div>"+TAG_ORDER.map(tag=>{const list=map[tag]||[];if(!list.length)return"";return `<div class="card"><h3 style="margin:0 0 6px">${tag}</h3><p class="sub">${list.length} 题</p></div>`+list.map(itemRow).join("")}).join("");
-box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>openDetail(el.dataset.id,"quiz")))}
+box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByTag()[it.tag])||[it]);openDetail(el.dataset.id,"quiz")}))}
 function openDetail(id,tab){const it=ITEMS.find(x=>x.id===id);const el=document.getElementById("detail");
 el.innerHTML=`<div class="row"><button class="ghost" id="backList">← 返回</button></div>
 <div class="tabs" id="subTabs">
 <button data-sub="quiz" class="${tab==="quiz"?"active":""}">再做一次</button>
 <button data-sub="note" class="${tab==="note"?"active":""}">错因笔记</button>
 <button data-sub="photo" class="${tab==="photo"?"active":""}">看原题照片</button></div>
-<div id="sub-quiz" class="panel ${tab==="quiz"?"active":""}"><div class="card"><span class="badge">${it.tag}</span><p class="sub">${it.passage} · ${it.point||""}</p><div class="q-en">${it.prompt}</div><div class="choices" id="choices"></div><div id="result" class="explain" hidden></div><div class="row"><button class="ghost" id="retry">再练一遍</button><button class="primary" id="markAgain">这题还要复习</button></div></div></div>
+<div id="sub-quiz" class="panel ${tab==="quiz"?"active":""}"><div class="card"><span class="badge">${it.tag}</span><p class="sub">${it.passage} · ${it.point||""}</p><div class="q-en">${it.prompt}</div><div class="choices" id="choices"></div><div id="result" class="explain" hidden></div><div class="row"><button class="ghost" id="retry">再练一遍</button><button class="primary" id="markAgain">这题还要复习</button><button class="primary" id="nextQ">下一题</button></div></div></div>
 <div id="sub-note" class="panel ${tab==="note"?"active":""}"><div class="card"><span class="badge">${it.tag}</span><h3>${it.title}</h3><div class="note-body">${it.note}</div></div></div>
 <div id="sub-photo" class="panel ${tab==="photo"?"active":""}"><div class="card"><p>${it.passage}</p><img class="page" src="${photoSrc(it.photo)}" alt="${it.title}"></div></div>`;
 document.querySelectorAll("#mainTabs button").forEach(b=>b.classList.remove("active"));
@@ -160,7 +161,9 @@ const result=document.getElementById("result");result.hidden=false;
 result.innerHTML=(ok?"<strong>对了。</strong> ":"<strong>这题容易错。</strong> ")+(ok?it.ok:it.bad)+"<p>下次：<b>"+SRS_STEPS[rec.step].label+"</b></p>";
 state.tries.push({at:new Date().toISOString(),id:it.id,ok});save()};choices.appendChild(b)});
 document.getElementById("retry").onclick=()=>openDetail(id,"quiz");
-document.getElementById("markAgain").onclick=()=>{srsMark(srsInit(it.id,state),false);state.need[it.id]=true;save()}}
+document.getElementById("markAgain").onclick=()=>{srsMark(srsInit(it.id,state),false);state.need[it.id]=true;save()};
+const nid=nextId(id);const nextBtn=document.getElementById("nextQ");
+if(!nid){nextBtn.disabled=true;nextBtn.textContent="已经是最后一题";}else nextBtn.onclick=()=>openDetail(nid,"quiz");}
 function renderCards(){const box=document.getElementById("cards");box.innerHTML=CARDS.map(c=>`<div class="card flip" data-front="${c[0]}" data-back="${c[1]}" data-hint="${c[2]}"></div>`).join("");
 box.querySelectorAll(".flip").forEach(card=>{card.innerHTML=`<div class="front"><div class="cn">${card.dataset.front}</div><div class="hint">点击看英文</div></div><div class="back" hidden><div class="en">${card.dataset.back}</div><div class="hint">${card.dataset.hint}</div></div>`;
 card.onclick=()=>{const f=card.querySelector(".front"),b=card.querySelector(".back"),show=b.hidden;f.hidden=show;b.hidden=!show}})}
