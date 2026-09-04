@@ -1,6 +1,6 @@
 {
   "v": 4,
-  "updatedAt": 1788515439212,
+  "updatedAt": 1788520961385,
   "srs": {
     "p135-q23": {
       "step": 2,
@@ -91,6 +91,16 @@
       "next": 1788515736867,
       "streak": 1,
       "last": 1788512136867
+    },
+    "films-q20": {
+      "step": 0,
+      "next": 1788520952164,
+      "streak": 0
+    },
+    "films-q21": {
+      "step": 0,
+      "next": 1788520952164,
+      "streak": 0
     }
   },
   "need": {
@@ -108,8 +118,11 @@
     "dol-q20": false,
     "dol-q22": false,
     "job-q25": false,
-    "job-q26": false
+    "job-q26": false,
+    "films-q20": true,
+    "films-q21": true
   },
+  "wrong": {},
   "tries": [
     {
       "at": "2026-09-04T08:52:50.192Z",
