@@ -41,7 +41,7 @@ label.lbl{font-size:13px;color:var(--muted);font-weight:650}
 ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </style></head>
 <body>
-<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.0</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.1</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
 <main>
 <div class="tabs" id="mainTabs">
 <button class="active" data-tab="list">今日复习</button>
@@ -76,10 +76,13 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </div>
 <div class="card">
 <p class="sub">怎么开 token</p>
+<p class="sub">GitHub 页面上按钮写的是 <b>Credentials</b>，下面再找 <b>New token</b>。这个地址才是 Fine-grained Personal Access Tokens：</p>
+<p class="sub"><a href="https://github.com/settings/personal-access-tokens/new?name=pet-review-progress&contents=write" target="_blank" rel="noopener">https://github.com/settings/personal-access-tokens/new</a></p>
+<p class="sub">列表页：<a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">https://github.com/settings/personal-access-tokens</a></p>
 <ol class="steps">
-<li>GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens</li>
-<li>Resource owner 选 adoocoke，Only select repositories 选 pet-review</li>
-<li>Permissions → Contents 选 Read and write</li>
+<li>打开上面链接，或 Settings → <b>Credentials</b> → New token</li>
+<li>Repository access 只选 <code>adoocoke/pet-review</code></li>
+<li>Permissions → Contents = Read and write</li>
 <li>生成后贴到上面，电脑和平板各贴一次</li>
 </ol>
 </div>
