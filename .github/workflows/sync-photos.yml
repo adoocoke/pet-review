@@ -24,62 +24,46 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install gdown
-        run: pip install -q gdown
-
       - name: Download Drive files into photos/
         run: |
           python3 << 'PY'
-          import json, subprocess, sys
+          import json, urllib.request
           from pathlib import Path
           man = json.loads(Path("photos-manifest.json").read_text())
           out = Path("photos")
           out.mkdir(exist_ok=True)
           ok = 0
-          folder = man.get("folder")
-          if folder:
-              tmp = Path("_drive_folder")
-              tmp.mkdir(exist_ok=True)
-              print("gdown folder", folder)
-              r = subprocess.run(
-                  ["gdown", "--folder", folder, "-O", str(tmp), "--remaining-ok"],
-                  capture_output=True, text=True,
-              )
-              print(r.stdout)
-              print(r.stderr)
-              for p in tmp.rglob("*"):
-                  if p.is_file() and p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}:
-                      dest = out / p.name
-                      dest.write_bytes(p.read_bytes())
-                      print("copied folder file", dest, dest.stat().st_size)
-                      ok += 1
           for f in man.get("files", []):
               dest = out / f["name"]
-              if dest.exists() and dest.stat().st_size > 2000:
-                  print("already have", dest.name, dest.stat().st_size)
-                  continue
-              print("gdown file", f["id"], "->", dest)
-              r = subprocess.run(
-                  ["gdown", "--id", f["id"], "-O", str(dest), "--fuzzy"],
-                  capture_output=True, text=True,
-              )
-              print(r.stdout)
-              print(r.stderr)
-              if dest.exists() and dest.read_bytes()[:3] == b"\xff\xd8\xff":
-                  print("ok", dest, dest.stat().st_size)
-                  ok += 1
-              else:
-                  if dest.exists():
-                      dest.unlink()
-                  print("FAILED", f["name"])
+              urls = [
+                  "https://drive.google.com/uc?export=download&id=" + f["id"],
+                  "https://drive.usercontent.google.com/download?id=" + f["id"] + "&export=download",
+              ]
+              print("GET", f["name"], f["id"])
+              saved = False
+              for url in urls:
+                  try:
+                      req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 pet-review-sync"})
+                      with urllib.request.urlopen(req, timeout=90) as r:
+                          data = r.read()
+                      print(" ", url[:60], "bytes", len(data), "type", r.headers.get("content-type"))
+                      if len(data) >= 2000 and data[:3] == b"\xff\xd8\xff":
+                          dest.write_bytes(data)
+                          print(" wrote", dest, dest.stat().st_size)
+                          ok += 1
+                          saved = True
+                          break
+                  except Exception as e:
+                      print(" fail", url[:60], e)
+              if not saved:
+                  print(" MISSING", f["name"])
           names = sorted(p.name for p in out.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
           Path("photos-list.js").write_text(
               "const REPO_PHOTOS = " + json.dumps(["photos/" + n for n in names], ensure_ascii=False) + ";\n"
           )
           print("result", names, "ok", ok)
           if not names:
-              print("::error::Drive 文件夹没公开，Action 拉不到图。把文件夹设成「知道链接的任何人 / 查看」")
-              sys.exit(1)
+              raise SystemExit("no photos downloaded")
           PY
 
       - name: Commit photos if changed
