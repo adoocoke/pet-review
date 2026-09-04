@@ -20,6 +20,8 @@ function setSyncStatus(msg) {
   syncStatus = msg;
   const el = document.getElementById("syncStatus");
   if (el) el.textContent = msg;
+  const home = document.getElementById("homeSync");
+  if (home) home.textContent = msg;
 }
 function packProgress() {
   return {
@@ -40,23 +42,37 @@ function applyProgress(p) {
     srsInit(it.id, state);
   });
 }
+function recLived(r) {
+  if (!r) return false;
+  return !!(r.last || r.streak || r.step || (r.tries && r.tries.length));
+}
+function recScore(r) {
+  if (!r) return -1;
+  return (r.last || 0) + (r.streak || 0) * 1000 + (r.step || 0) * 100;
+}
 function mergeProgress(a, b) {
   const out = { v: 4, updatedAt: Math.max(a.updatedAt || 0, b.updatedAt || 0), srs: {}, need: {}, tries: [] };
-  const ids = new Set([].concat(Object.keys(a.srs || {}), Object.keys(b.srs || {})));
+  const ids = new Set([].concat(Object.keys(a.srs || {}), Object.keys(b.srs || {}), Object.keys(a.need || {}), Object.keys(b.need || {})));
   ids.forEach(id => {
     const x = (a.srs || {})[id];
     const y = (b.srs || {})[id];
-    const pick = !x ? y : !y ? x : (x.last || 0) >= (y.last || 0) ? x : y;
-    out.srs[id] = pick;
+    let pick;
+    if (!x) pick = y;
+    else if (!y) pick = x;
+    else if (recLived(x) && !recLived(y)) pick = x;
+    else if (!recLived(x) && recLived(y)) pick = y;
+    else pick = recScore(x) >= recScore(y) ? x : y;
+    if (pick) out.srs[id] = pick;
+    const fromA = pick === x;
     const needA = (a.need || {})[id];
     const needB = (b.need || {})[id];
-    if (!x) out.need[id] = needB;
-    else if (!y) out.need[id] = needA;
-    else out.need[id] = (x.last || 0) >= (y.last || 0) ? needA : needB;
+    if (pick && pick === x) out.need[id] = needA !== undefined ? needA : needB;
+    else out.need[id] = needB !== undefined ? needB : needA;
+    if (fromA && needA === undefined) out.need[id] = needB;
   });
   const seen = new Set();
   [].concat(a.tries || [], b.tries || []).forEach(t => {
-    const k = (t.at || "") + "|" + t.id + "|" + t.ok;
+    const k = (t.at || "") + "|" + t.id + "|" + String(t.ok);
     if (seen.has(k)) return;
     seen.add(k);
     out.tries.push(t);
@@ -90,13 +106,14 @@ async function pullRemote() {
   try {
     const remote = await fetchRemote();
     if (remote.missing) {
-      setSyncStatus("仓库还没有 progress.json，贴 token 后会写上去");
+      setSyncStatus("仓库还沠有 progress.json，贴 token 后会写上去");
       return;
     }
     const merged = mergeProgress(packProgress(), remote);
     applyProgress(merged);
     save({ skipPush: true });
-    setSyncStatus("已从仓库合并 · " + new Date().toLocaleString("zh-CN", { hour12: false }));
+    const n = (state.tries || []).length;
+    setSyncStatus("已合并进度，共练过 " + n + " 次 · " + new Date().toLocaleString("zh-CN", { hour12: false }));
   } catch (e) {
     setSyncStatus("拉取失败：" + e.message);
   }
@@ -104,7 +121,7 @@ async function pullRemote() {
 async function pushRemote(attempt) {
   attempt = attempt || 0;
   if (!getToken()) {
-    setSyncStatus("要写回仓库，先在设置里贴 token");
+    setSyncStatus("本机进度已记住；要同步到 iPad 请先贴 token 再点「现在写」");
     return;
   }
   setSyncStatus("正在写回仓库…");
@@ -138,8 +155,9 @@ async function pushRemote(attempt) {
     if (!res.ok) throw new Error("写入 " + res.status);
     const data = await res.json();
     progressSha = (data.content && data.content.sha) || progressSha;
-    setSyncStatus("已写回仓库 · " + new Date().toLocaleString("zh-CN", { hour12: false }));
-    renderHistory();
+    const n = (state.tries || []).length;
+    setSyncStatus("已写回仓库，共练过 " + n + " 次 · " + new Date().toLocaleString("zh-CN", { hour12: false }));
+    renderList(); renderLater(); renderLearned(); renderHistory();
   } catch (e) {
     setSyncStatus("写入失败：" + e.message);
   }
@@ -147,5 +165,11 @@ async function pushRemote(attempt) {
 function schedulePush() {
   if (!getToken()) return;
   clearTimeout(pushTimer);
-  pushTimer = setTimeout(function () { pushRemote(0); }, 2000);
+  pushTimer = setTimeout(function () { pushRemote(0); }, 600);
 }
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden" && getToken()) pushRemote(0);
+});
+window.addEventListener("pagehide", function () {
+  if (getToken()) pushRemote(0);
+});
