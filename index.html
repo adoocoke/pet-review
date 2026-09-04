@@ -38,7 +38,7 @@ img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
 .stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
 </style></head>
 <body>
-<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.4.2</span></h1><p class="sub">按题目 · 按知识点 · 原题照片</p></header>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.4.3</span></h1><p class="sub">按题目 · 按知识点 · 原题照片</p></header>
 <main>
 <div class="tabs" id="mainTabs">
 <button class="active" data-tab="list">今日复习</button>
@@ -66,6 +66,12 @@ img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
 <script src="data/cards.js"></script>
 <script src="group.js"></script>
 <script src="photos-drive.js"></script>
+<script src="photos-embed/p135-central-park.js"></script>
+<script src="photos-embed/email-jerry-bill.js"></script>
+<script src="photos-embed/p141-holidays.js"></script>
+<script src="photos-embed/email-gavin-hospital.js"></script>
+<script src="photos-embed/p147-dolphin.js"></script>
+<script src="photos-embed/email-jessie-job.js"></script>
 <script src="srs.js"></script>
 <script>
 const KEY="pet-review-v4";
@@ -74,7 +80,7 @@ const state=JSON.parse(localStorage.getItem(KEY)||"null")||old3||{tries:[],need:
 if(!state.srs)state.srs={};
 ITEMS.forEach(it=>{if(state.need[it.id]===undefined)state.need[it.id]=true;srsInit(it.id,state)});
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderList();renderByQ();renderByTag();renderHistory()}
-function photoSrc(path){return (window.DRIVE_PHOTOS&&DRIVE_PHOTOS[path])||(window.PHOTO&&PHOTO[path])||path}
+function photoSrc(path){return (window.PHOTO&&PHOTO[path])||path}
 document.querySelectorAll("#mainTabs button").forEach(btn=>btn.addEventListener("click",()=>{
 document.querySelectorAll("#mainTabs button").forEach(b=>b.classList.remove("active"));
 document.querySelectorAll("main > .panel").forEach(p=>p.classList.remove("active"));
