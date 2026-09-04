@@ -1,0 +1,48 @@
+{
+  "book": {
+    "title": "剑桥KET阅读 上册",
+    "series": "新版 A2 Key for Schools",
+    "publisher": "电子工业出版社 / 华研外语",
+    "authors": "华研剑桥考试研究中心",
+    "isbn": "9787121406034",
+    "level": "A2 Key (KET)",
+    "companion": "下册：答案详解 + 全文翻译 + 词汇注释",
+    "cover_image": "book-cover.jpg"
+  },
+  "pages": [
+    {
+      "page": 135,
+      "photo": "page-135.jpg",
+      "section": "全真模拟 / Reading Part 4 完型填空",
+      "exam_part": "A2 Key Reading Part 4",
+      "questions": "19-24",
+      "passage_title": "Central Park",
+      "answer_key": {
+        "19": "A",
+        "20": "C",
+        "21": "B",
+        "22": "A",
+        "23": "B",
+        "24": "C"
+      },
+      "answers_words": {
+        "19": "known",
+        "20": "visit",
+        "21": "many",
+        "22": "different",
+        "23": "popular",
+        "24": "used"
+      },
+      "error_items": ["23"],
+      "review_phrases": [
+        "be known by",
+        "visit ... each year",
+        "many + plural",
+        "different kinds",
+        "be popular with",
+        "be used for"
+      ],
+      "official_key_source": "请对照华研下册「第12章 完型填空题（PART 4）答案详解」中与 Central Park / p.135 对应的那一页"
+    }
+  ]
+}
