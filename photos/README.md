@@ -1,11 +1,7 @@
-Put original question photos here so the review page can show them.
+原题照片从 Google Drive 同步进来。
 
-Needed files:
-- p135-central-park.jpg
-- email-jerry-bill.jpg
-- p141-holidays.jpg
-- email-gavin-hospital.jpg
-- p147-dolphin.jpg
-- email-jessie-job.jpg
+Drive 文件夹：https://drive.google.com/drive/folders/1fHmntNUhxfQd-5sVNaKrN509X58SDJvj
 
-On GitHub: Add file → Upload files → drop this folder.
+Action 能拉到图的前提：文件夹右上角「共享」 → 一般访问权限 = 知道链接的任何人 / 查看。
+
+触发：手动 Run workflow、每小时、或改 photos-manifest.json。
