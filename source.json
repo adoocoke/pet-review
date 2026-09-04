@@ -2,65 +2,34 @@
   "learner": {
     "goal": "KET 与 PET 一起学，同一套错题/词组/复习库"
   },
-  "books": [
-    {
-      "id": "ket-reading-upper",
-      "title": "剑桥KET阅读 上册",
-      "series": "新版 A2 Key for Schools",
-      "level": "A2 Key (KET)",
-      "publisher": "电子工业出版社 / 华研外语",
-      "authors": "华研剑桥考试研究中心",
-      "isbn": "9787121406034",
-      "companion": "下册：答案详解 + 全文翻译 + 词汇注释",
-      "cover_image": "book-cover.jpg"
-    },
-    {
-      "id": "pet-reading-upper",
-      "title": "剑桥PET阅读 上册",
-      "series": "新版 B1 Preliminary for Schools",
-      "level": "B1 Preliminary (PET)",
-      "publisher": "电子工业出版社 / 华研外语",
-      "authors": "刘霞",
-      "isbn": "9787121406171",
-      "companion": "下册：答案详解 + 全文翻译 + 词汇注释",
-      "cover_image": "pet-book-cover.jpg",
-      "notes": "150篇 词汇+阅读双突破"
-    }
-  ],
   "pages": [
     {
       "book_id": "ket-reading-upper",
       "page": 135,
-      "photo": "page-135.jpg",
-      "section": "全真模拟 / Reading Part 4 完型填空",
       "exam_part": "A2 Key Reading Part 4",
-      "questions": "19-24",
       "passage_title": "Central Park",
-      "answer_key": {
-        "19": "A",
-        "20": "C",
-        "21": "B",
-        "22": "A",
-        "23": "B",
-        "24": "C"
-      },
-      "answers_words": {
-        "19": "known",
-        "20": "visit",
-        "21": "many",
-        "22": "different",
-        "23": "popular",
-        "24": "used"
-      },
       "error_items": ["23"],
-      "review_phrases": [
-        "be known by",
-        "visit ... each year",
-        "many + plural",
-        "different kinds",
-        "be popular with",
-        "be used for"
-      ]
+      "answers_words": { "23": "popular" }
+    },
+    {
+      "book_id": "ket-reading-upper",
+      "exam_part": "A2 Key Reading Part 5",
+      "passage_title": "Email from Jerry to Bill",
+      "questions": "25-30",
+      "answers_words": {
+        "25": "it",
+        "26": "the",
+        "27": "from",
+        "28": "than",
+        "29": "on",
+        "30": "after"
+      },
+      "error_items": ["27", "28", "29"],
+      "notes": {
+        "27": "先写 with，改成 from",
+        "28": "写 of，红笔写成 then，正确是 than",
+        "29": "先写 in，改成 on"
+      }
     }
   ]
 }
