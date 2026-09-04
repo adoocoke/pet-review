@@ -4,8 +4,202 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>KET 错题 Review · Central Park</title>
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --paper: #fffdf8;
+      --ink: #1f2933;
+      --muted: #5b6773;
+      --line: #e4ddd2;
+      --red: #c0392b;
+      --green: #1f7a4d;
+      --blue: #1d4f8c;
+      --gold: #c9842a;
+      --soft-red: #fdecea;
+      --soft-green: #e8f6ee;
+      --soft-blue: #eaf2fb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #fff7e8, var(--bg));
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    header { padding: 20px 20px 8px; max-width: 860px; margin: 0 auto; }
+    header p.kicker { margin: 0; letter-spacing: .12em; font-size: 12px; color: var(--gold); font-weight: 700; }
+    h1 { margin: 6px 0 4px; font-size: 26px; }
+    .sub { margin: 0; color: var(--muted); font-size: 14px; }
+    main { max-width: 860px; margin: 0 auto; padding: 12px 16px 48px; }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+    .tabs button { border: 1px solid var(--line); background: white; border-radius: 999px; padding: 8px 14px; font-size: 14px; cursor: pointer; }
+    .tabs button.active { background: var(--ink); color: white; border-color: var(--ink); }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 18px; margin-bottom: 14px; box-shadow: 0 8px 24px rgba(80, 50, 20, .05); }
+    .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--soft-red); color: var(--red); }
+    .q-en { font-size: 20px; font-weight: 650; margin: 10px 0 8px; }
+    .blank { display: inline-block; min-width: 96px; border-bottom: 2px solid var(--gold); text-align: center; color: var(--gold); font-weight: 800; }
+    .choices { display: grid; gap: 8px; margin: 12px 0; }
+    .choices button { text-align: left; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: white; font-size: 16px; cursor: pointer; }
+    .choices button.correct { background: var(--soft-green); border-color: #9ad4b4; }
+    .choices button.wrong { background: var(--soft-red); border-color: #f0b6b0; }
+    .explain { background: var(--soft-blue); border-radius: 12px; padding: 12px 14px; font-size: 15px; }
+    .explain strong { color: var(--blue); }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    button.primary, button.ghost { border-radius: 12px; padding: 10px 14px; font-size: 15px; cursor: pointer; }
+    button.primary { background: var(--ink); color: white; border: 0; }
+    button.ghost { background: white; border: 1px solid var(--line); }
+    .flip { min-height: 180px; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; user-select: none; }
+    .flip .en { font-size: 34px; font-weight: 800; }
+    .flip .cn { font-size: 22px; }
+    .flip .hint { color: var(--muted); font-size: 13px; margin-top: 8px; }
+    img.page { width: 100%; border-radius: 12px; border: 1px solid var(--line); }
+    .history-item { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 14px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .stat { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 10px; text-align: center; }
+    .stat b { display: block; font-size: 20px; }
+    .stat span { font-size: 12px; color: var(--muted); }
+  </style>
 </head>
 <body>
-  <p>Full review page lives in the project folder. Use the complete index.html from artifacts/pet-review if this stub was used.</p>
+  <header>
+    <p class="kicker">KET 错题 REVIEW</p>
+    <h1>产生错误的题目</h1>
+    <p class="sub">华研《剑桥KET阅读》上册 p.135 · Central Park 完型 第 23 题</p>
+  </header>
+  <main>
+    <div class="tabs">
+      <button class="active" data-tab="quiz">再做一次</button>
+      <button data-tab="cards">单词词组卡</button>
+      <button data-tab="note">错因笔记</button>
+      <button data-tab="photo">看原题照片</button>
+      <button data-tab="history">学习历史</button>
+    </div>
+    <section id="quiz" class="panel active">
+      <div class="card">
+        <span class="badge">错题 / 拿不准</span>
+        <div class="q-en">The park is also very <span class="blank" id="blank23">23</span> with people who like sport.</div>
+        <p>选择能填进空格的词。</p>
+        <div class="choices" id="choices23">
+          <button data-key="A">A beautiful</button>
+          <button data-key="B">B popular</button>
+          <button data-key="C">C big</button>
+        </div>
+        <div id="result23" class="explain" hidden></div>
+        <div class="row">
+          <button class="ghost" id="retry23">再练一遍</button>
+          <button class="primary" id="markAgain">这题还要复习</button>
+        </div>
+      </div>
+    </section>
+    <section id="cards" class="panel">
+      <div class="card flip" id="flipCard">
+        <div class="front"><div class="cn">受……欢迎</div><div class="hint">点击卡片看英文词组</div></div>
+        <div class="back" hidden><div class="en">popular with</div><div class="hint">The park is popular with people who like sport.</div></div>
+      </div>
+      <div class="card">
+        <p><strong>同页搭配</strong></p>
+        <ul>
+          <li><b>known by</b> — 被……所熟知</li>
+          <li><b>visit</b> — 20 million people visit it each year.</li>
+          <li><b>many + 可数名词</b> — many tall trees</li>
+          <li><b>different kinds</b> — 不同种类</li>
+          <li><b>used for</b> — The road is used for running.</li>
+        </ul>
+      </div>
+    </section>
+    <section id="note" class="panel">
+      <div class="card">
+        <span class="badge">错因</span>
+        <h3>为什么不是 beautiful / big？</h3>
+        <p>空格后面是 <b>with people</b>，固定搭配是 be <u>popular with</u> somebody。</p>
+        <div class="explain">
+          <p><strong>popular with</strong> = 受……欢迎，后面加人。</p>
+          <p>beautiful / big 可以形容公园，不能接 with people。</p>
+        </div>
+      </div>
+    </section>
+    <section id="photo" class="panel">
+      <div class="card">
+        <p>原题照片保留在本地 artifacts（孩子作业照，暂不上传仓库）。</p>
+      </div>
+    </section>
+    <section id="history" class="panel">
+      <div class="stats">
+        <div class="stat"><b id="statTried">0</b><span>练习次数</span></div>
+        <div class="stat"><b id="statRight">0</b><span>做对</span></div>
+        <div class="stat"><b id="statNeed">1</b><span>仍需复习</span></div>
+      </div>
+      <div class="card" id="historyList"><p class="sub">还没有记录。</p></div>
+    </section>
+  </main>
+  <script>
+    const KEY = "pet-review-q23-v1";
+    const state = JSON.parse(localStorage.getItem(KEY) || '{"tries":[],"needReview":true}');
+    function save() { localStorage.setItem(KEY, JSON.stringify(state)); renderHistory(); }
+    document.querySelectorAll(".tabs button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tabs button").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+    const result = document.getElementById("result23");
+    const blank = document.getElementById("blank23");
+    document.querySelectorAll("#choices23 button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.parentElement.dataset.locked === "1") return;
+        btn.parentElement.dataset.locked = "1";
+        const ok = btn.dataset.key === "B";
+        btn.classList.add(ok ? "correct" : "wrong");
+        document.querySelector('#choices23 button[data-key="B"]').classList.add("correct");
+        blank.textContent = "popular";
+        result.hidden = false;
+        result.innerHTML = ok
+          ? "<strong>对了。</strong> popular with people = 受喜欢运动的人欢迎。"
+          : "<strong>这题当时容易错。</strong> 空格后是 with people，只能用 popular with。";
+        state.tries.push({ at: new Date().toISOString(), ok });
+        if (ok) state.needReview = false;
+        save();
+      });
+    });
+    document.getElementById("retry23").addEventListener("click", () => {
+      document.querySelectorAll("#choices23 button").forEach((b) => b.classList.remove("correct", "wrong"));
+      document.getElementById("choices23").dataset.locked = "0";
+      blank.textContent = "23";
+      result.hidden = true;
+    });
+    document.getElementById("markAgain").addEventListener("click", () => {
+      state.needReview = true;
+      state.tries.push({ at: new Date().toISOString(), ok: false, note: "手动标记仍需复习" });
+      save();
+    });
+    const flip = document.getElementById("flipCard");
+    flip.addEventListener("click", () => {
+      const front = flip.querySelector(".front");
+      const back = flip.querySelector(".back");
+      const showBack = back.hidden;
+      front.hidden = showBack;
+      back.hidden = !showBack;
+    });
+    function renderHistory() {
+      const tried = state.tries.length;
+      const right = state.tries.filter((t) => t.ok).length;
+      document.getElementById("statTried").textContent = tried;
+      document.getElementById("statRight").textContent = right;
+      document.getElementById("statNeed").textContent = state.needReview ? 1 : 0;
+      const box = document.getElementById("historyList");
+      if (!state.tries.length) return;
+      box.innerHTML = state.tries.slice().reverse().map((t) => {
+        const time = new Date(t.at).toLocaleString("zh-CN", { hour12: false });
+        const text = t.note || (t.ok ? "做对 popular with" : "仍未掌握 popular with");
+        return `<div class="history-item"><span>${time}</span><span>${text}</span></div>`;
+      }).join("");
+    }
+    renderHistory();
+  </script>
 </body>
 </html>
