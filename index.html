@@ -1,1 +1,112 @@
-<placeholder>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<title>KET/PET 错题 Review</title>
+<style>
+:root{--bg:#f4f1ea;--paper:#fffdf8;--ink:#1f2933;--muted:#5b6773;--line:#e4ddd2;--red:#c0392b;--green:#1f7a4d;--gold:#c9842a;--soft-red:#fdecea;--soft-green:#e8f6ee;--soft-blue:#eaf2fb}
+*{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Noto Sans SC",sans-serif;background:#f4f1ea;color:#1f2933;line-height:1.55}
+header,main{max-width:860px;margin:0 auto}header{padding:20px 20px 8px}
+.kicker{margin:0;letter-spacing:.12em;font-size:12px;color:var(--gold);font-weight:700}h1{margin:6px 0 4px;font-size:24px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}h1 .ver{font-size:13px;font-weight:500;color:var(--muted)}
+.sub{margin:0;color:var(--muted);font-size:14px}main{padding:12px 16px 56px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer}
+.tabs button.active{background:var(--ink);color:#fff}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.item{cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.item h3{margin:4px 0 2px;font-size:16px}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--soft-red);color:var(--red)}
+.badge.ok{background:var(--soft-green);color:var(--green)}
+.q-en{font-size:18px;font-weight:650;margin:10px 0}
+.blank{display:inline-block;min-width:72px;border-bottom:2px solid var(--gold);text-align:center;color:var(--gold);font-weight:800}
+.choices{display:grid;gap:8px;margin:12px 0}
+.choices button{text-align:left;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:16px;cursor:pointer}
+.choices button.correct{background:var(--soft-green)}.choices button.wrong{background:var(--soft-red)}
+.explain{background:var(--soft-blue);border-radius:12px;padding:12px 14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button.primary{background:var(--ink);color:#fff;border:0;border-radius:12px;padding:10px 14px;cursor:pointer}button.primary:disabled{opacity:.45;cursor:default}
+button.ghost{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer}
+.flip{min-height:130px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}
+.flip .en{font-size:28px;font-weight:800}.flip .cn{font-size:20px}.flip .hint{color:var(--muted);font-size:13px;margin-top:8px}
+img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
+.note-body p{margin:0 0 10px}.due{background:#fff4e5}
+.history-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
+.field{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font-size:14px;margin:8px 0 4px}
+label.lbl{font-size:13px;color:var(--muted);font-weight:650}
+ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
+</style></head>
+<body>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.6.1</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
+<main>
+<div class="tabs" id="mainTabs">
+<button class="active" data-tab="list">今日复习</button>
+<button data-tab="byQ">按题目</button>
+<button data-tab="byTag">按知识点</button>
+<button data-tab="cards">单词词组卡</button>
+<button data-tab="redo">二次错题</button>
+<button data-tab="later">以后再练</button>
+<button data-tab="learned">已学会</button>
+<button data-tab="history">学习历史</button>
+<button data-tab="settings">设置</button>
+</div>
+<section id="list" class="panel active"></section>
+<section id="byQ" class="panel"></section>
+<section id="byTag" class="panel"></section>
+<section id="detail" class="panel"></section>
+<section id="cards" class="panel"></section>
+<section id="redo" class="panel"></section>
+<section id="later" class="panel"></section>
+<section id="learned" class="panel"></section>
+<section id="history" class="panel">
+<div class="stats"><div class="stat"><b id="statTried">0</b><span>练习次数</span></div><div class="stat"><b id="statRight">0</b><span>做对</span></div><div class="stat"><b id="statNeed">0</b><span>今日到期</span></div></div>
+<div class="card" id="historyList"><p class="sub">还沠有记录。</p></div>
+</section>
+<section id="settings" class="panel">
+<div class="card">
+<h3 style="margin:0 0 8px">进度写进这个仓库</h3>
+<p class="sub">token <b>写/拉的只有学习记忆</b>：每题做了几次、连对几次、下次什么时候练、练习历史。题目和照片不走 token。</p>
+<p class="sub">手机做完后点「现在写」。iPad 打开会自动拉。两边都要贴同一个 token，写才成功。</p>
+<label class="lbl">Fine-grained PAT（Contents 读写）</label>
+<input class="field" id="tokenInput" type="password" autocomplete="off" placeholder="github_pat_…">
+<div class="row">
+<button class="primary" id="saveToken">保存 token</button>
+<button class="ghost" id="clearToken">清掉 token</button>
+<button class="ghost" id="pullNow">现在拉</button>
+<button class="ghost" id="pushNow">现在写</button>
+</div>
+<p class="sub" id="syncStatus">还没同步</p>
+<p class="sub" id="localMem"></p>
+</div>
+<div class="card">
+<p class="sub">怎么开 token</p>
+<p class="sub">直接打这页：<a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">Fine-grained tokens 列表</a>。右上角 <b>Generate new token</b>。</p>
+<p class="sub">新建：<a href="https://github.com/settings/personal-access-tokens/new?name=pet-review-progress&contents=write" target="_blank" rel="noopener">https://github.com/settings/personal-access-tokens/new</a></p>
+<ol class="steps">
+<li>仓库只勾 <code>adoocoke/pet-review</code></li>
+<li>Contents = Read and write</li>
+<li>生成后贴到上面；列表里已有的 token 看不到密钥，找不到就新开</li>
+</ol>
+</div>
+</section>
+</main>
+<script src="data.js"></script>
+<script src="data/p135-central-park.js"></script>
+<script src="data/mail-jerry-bill.js"></script>
+<script src="data/p141-holidays.js"></script>
+<script src="data/mail-hospital.js"></script>
+<script src="data/p147-dolphin.js"></script>
+<script src="data/p153-first-films.js"></script>
+<script src="data/mail-jessie-job.js"></script>
+<script src="data/cards.js"></script>
+<script src="group.js"></script>
+<script src="photos-drive.js"></script>
+<script src="srs.js"></script>
+<script src="sync.js"></script>
+<script src="app.js"></script>
+</body></html>
