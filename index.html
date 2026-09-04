@@ -42,7 +42,7 @@ label.lbl{font-size:13px;color:var(--muted);font-weight:650}
 ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </style></head>
 <body>
-<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.4</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.5</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
 <main>
 <div class="tabs" id="mainTabs">
 <button class="active" data-tab="list">今日复习</button>
@@ -68,7 +68,8 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 <section id="settings" class="panel">
 <div class="card">
 <h3 style="margin:0 0 8px">进度写进这个仓库</h3>
-<p class="sub">贴一次 GitHub token，电脑和平板就共用 <code>progress.json</code>。token 只存这台浏览器，不进 git。</p>
+<p class="sub">token <b>写/拉的只有学习记忆</b>：每题做了几次、连对几次、下次什么时候练、练习历史。题目和照片不走 token。</p>
+<p class="sub">手机做完后点「现在写」。iPad 打开会自动拉。两边都要贴同一个 token，写才成功。</p>
 <label class="lbl">Fine-grained PAT（Contents 读写）</label>
 <input class="field" id="tokenInput" type="password" autocomplete="off" placeholder="github_pat_…">
 <div class="row">
@@ -78,6 +79,7 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 <button class="ghost" id="pushNow">现在写</button>
 </div>
 <p class="sub" id="syncStatus">还没同步</p>
+<p class="sub" id="localMem"></p>
 </div>
 <div class="card">
 <p class="sub">怎么开 token</p>
@@ -138,8 +140,9 @@ document.querySelectorAll("main > .panel").forEach(p=>p.classList.remove("active
 btn.classList.add("active");document.getElementById(btn.dataset.tab).classList.add("active")}));
 function renderList(){const box=document.getElementById("list");
 const dueNew=ITEMS.filter(it=>srsDue(state.srs[it.id])&&!isLearned(it));
-if(!dueNew.length){box.innerHTML='<div class="card"><p>今天的题练完了。</p><p class="sub">沠到期的在「以后再练」，连对过的在「已学会」。到点再回来。</p></div>';return;}
-const intro=`<div class="card"><p>现在可以练 <b>${dueNew.length}</b> 题。</p></div>`;
+const syncLine='<p class="sub" id="homeSync">'+(typeof syncStatus==="string"?syncStatus:"")+'</p>';
+if(!dueNew.length){box.innerHTML='<div class="card"><p>今天的题练完了。</p><p class="sub">沠到期的在「以后再练」，连对过的在「已学会」。到点再回来。</p>'+syncLine+'</div>';return;}
+const intro=`<div class="card"><p>现在可以练 <b>${dueNew.length}</b> 题。</p>${syncLine}</div>`;
 box.innerHTML=intro+dueNew.map(it=>itemRow(it,true)).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(dueNew);openDetail(el.dataset.id,"quiz")}))}
 function itemRow(it,forceDue){const rec=state.srs[it.id]||{streak:0};const due=forceDue||(srsDue(rec)&&!isLearned(it));
@@ -202,7 +205,10 @@ function bindSettings(){
   document.getElementById("clearToken").onclick=()=>{setToken("");input.value="";setSyncStatus("已清掉 token，只用本机进度");};
   document.getElementById("pullNow").onclick=()=>pullRemote();
   document.getElementById("pushNow").onclick=()=>pushRemote();
-  setSyncStatus(getToken()?"已有 token，可以写回仓库":"读取不要 token；要写回仓库请贴 token");
+  const n=(state.tries||[]).length;
+  const el=document.getElementById("localMem");
+  if(el) el.textContent="这台设备练习记录 "+n+" 次。";
+  setSyncStatus(getToken()?"已有 token。做完题会写到仓库，另一台打开就能看到。":"沠贴 token：这台记得住，另一台看不到。");
 }
 renderList();renderByQ();renderByTag();renderCards();renderLater();renderLearned();renderHistory();bindSettings();
 pullRemote();
