@@ -1,1 +1,1 @@
-const REPO_PHOTOS = [];
+const REPO_PHOTOS = ["photos/email-gavin-hospital.jpg", "photos/email-jerry-bill.jpg", "photos/email-jessie-job.jpg", "photos/p135-central-park.jpg", "photos/p141-holidays.jpg", "photos/p147-dolphin.jpg"];
