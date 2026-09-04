@@ -1,6 +1,6 @@
 {
   "v": 4,
-  "updatedAt": 1788521248418,
+  "updatedAt": 1788521320602,
   "srs": {
     "p135-q23": {
       "step": 2,
@@ -93,10 +93,10 @@
       "last": 1788521197377
     },
     "films-q20": {
-      "step": 0,
-      "next": 1788522374866,
-      "streak": 0,
-      "last": 1788521186866
+      "step": 1,
+      "next": 1788524918640,
+      "streak": 1,
+      "last": 1788521318640
     },
     "films-q21": {
       "step": 1,
@@ -121,12 +121,10 @@
     "dol-q22": false,
     "job-q25": false,
     "job-q26": false,
-    "films-q20": true,
+    "films-q20": false,
     "films-q21": false
   },
-  "wrong": {
-    "films-q20": true
-  },
+  "wrong": {},
   "tries": [
     {
       "at": "2026-09-04T08:52:50.192Z",
@@ -301,6 +299,11 @@
     {
       "at": "2026-09-04T11:26:37.377Z",
       "id": "job-q26",
+      "ok": true
+    },
+    {
+      "at": "2026-09-04T11:28:38.644Z",
+      "id": "films-q20",
       "ok": true
     }
   ]
