@@ -1,16 +1,35 @@
 {
-  "book": {
-    "title": "剑桥KET阅读 上册",
-    "series": "新版 A2 Key for Schools",
-    "publisher": "电子工业出版社 / 华研外语",
-    "authors": "华研剑桥考试研究中心",
-    "isbn": "9787121406034",
-    "level": "A2 Key (KET)",
-    "companion": "下册：答案详解 + 全文翻译 + 词汇注释",
-    "cover_image": "book-cover.jpg"
+  "learner": {
+    "goal": "KET 与 PET 一起学，同一套错题/词组/复习库"
   },
+  "books": [
+    {
+      "id": "ket-reading-upper",
+      "title": "剑桥KET阅读 上册",
+      "series": "新版 A2 Key for Schools",
+      "level": "A2 Key (KET)",
+      "publisher": "电子工业出版社 / 华研外语",
+      "authors": "华研剑桥考试研究中心",
+      "isbn": "9787121406034",
+      "companion": "下册：答案详解 + 全文翻译 + 词汇注释",
+      "cover_image": "book-cover.jpg"
+    },
+    {
+      "id": "pet-reading-upper",
+      "title": "剑桥PET阅读 上册",
+      "series": "新版 B1 Preliminary for Schools",
+      "level": "B1 Preliminary (PET)",
+      "publisher": "电子工业出版社 / 华研外语",
+      "authors": "刘霞",
+      "isbn": "9787121406171",
+      "companion": "下册：答案详解 + 全文翻译 + 词汇注释",
+      "cover_image": "pet-book-cover.jpg",
+      "notes": "150篇 词汇+阅读双突破"
+    }
+  ],
   "pages": [
     {
+      "book_id": "ket-reading-upper",
       "page": 135,
       "photo": "page-135.jpg",
       "section": "全真模拟 / Reading Part 4 完型填空",
@@ -41,8 +60,7 @@
         "different kinds",
         "be popular with",
         "be used for"
-      ],
-      "official_key_source": "请对照华研下册「第12章 完型填空题（PART 4）答案详解」中与 Central Park / p.135 对应的那一页"
+      ]
     }
   ]
 }
