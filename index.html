@@ -36,9 +36,12 @@ img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
 .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
 .stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
+.field{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font-size:14px;margin:8px 0 4px}
+label.lbl{font-size:13px;color:var(--muted);font-weight:650}
+ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </style></head>
 <body>
-<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.4.3</span></h1><p class="sub">按题目 · 按知识点 · 原题照片</p></header>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.5.0</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
 <main>
 <div class="tabs" id="mainTabs">
 <button class="active" data-tab="list">今日复习</button>
@@ -46,6 +49,7 @@ img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
 <button data-tab="byTag">按知识点</button>
 <button data-tab="cards">单词词组卡</button>
 <button data-tab="history">学习历史</button>
+<button data-tab="settings">设置</button>
 </div>
 <section id="list" class="panel active"></section>
 <section id="byQ" class="panel"></section>
@@ -54,8 +58,33 @@ img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
 <section id="cards" class="panel"></section>
 <section id="history" class="panel">
 <div class="stats"><div class="stat"><b id="statTried">0</b><span>练习次数</span></div><div class="stat"><b id="statRight">0</b><span>做对</span></div><div class="stat"><b id="statNeed">0</b><span>今日到期</span></div></div>
-<div class="card" id="historyList"><p class="sub">还没有记录。</p></div>
-</section></main>
+<div class="card" id="historyList"><p class="sub">还沠有记录。</p></div>
+</section>
+<section id="settings" class="panel">
+<div class="card">
+<h3 style="margin:0 0 8px">进度写进这个仓库</h3>
+<p class="sub">贴一次 GitHub token，电脑和平板就共用 <code>progress.json</code>。token 只存这台浏览器，不进 git。</p>
+<label class="lbl">Fine-grained PAT（Contents 读写）</label>
+<input class="field" id="tokenInput" type="password" autocomplete="off" placeholder="github_pat_…">
+<div class="row">
+<button class="primary" id="saveToken">保存 token</button>
+<button class="ghost" id="clearToken">清掉 token</button>
+<button class="ghost" id="pullNow">现在拉</button>
+<button class="ghost" id="pushNow">现在写</button>
+</div>
+<p class="sub" id="syncStatus">还没同步</p>
+</div>
+<div class="card">
+<p class="sub">怎么开 token</p>
+<ol class="steps">
+<li>GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens</li>
+<li>Resource owner 选 adoocoke，Only select repositories 选 pet-review</li>
+<li>Permissions → Contents 选 Read and write</li>
+<li>生成后贴到上面，电脑和平板各贴一次</li>
+</ol>
+</div>
+</section>
+</main>
 <script src="data.js"></script>
 <script src="data/p135-central-park.js"></script>
 <script src="data/mail-jerry-bill.js"></script>
@@ -73,13 +102,18 @@ img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
 <script src="photos-embed/p147-dolphin.js"></script>
 <script src="photos-embed/email-jessie-job.js"></script>
 <script src="srs.js"></script>
+<script src="sync.js"></script>
 <script>
 const KEY="pet-review-v4";
 const old3=JSON.parse(localStorage.getItem("pet-review-v3")||"null");
 const state=JSON.parse(localStorage.getItem(KEY)||"null")||old3||{tries:[],need:{},srs:{}};
 if(!state.srs)state.srs={};
 ITEMS.forEach(it=>{if(state.need[it.id]===undefined)state.need[it.id]=true;srsInit(it.id,state)});
-function save(){localStorage.setItem(KEY,JSON.stringify(state));renderList();renderByQ();renderByTag();renderHistory()}
+function save(opts){
+  localStorage.setItem(KEY,JSON.stringify(state));
+  renderList();renderByQ();renderByTag();renderHistory();
+  if(!opts||!opts.skipPush)schedulePush();
+}
 function photoSrc(path){return (window.PHOTO&&PHOTO[path])||path}
 document.querySelectorAll("#mainTabs button").forEach(btn=>btn.addEventListener("click",()=>{
 document.querySelectorAll("#mainTabs button").forEach(b=>b.classList.remove("active"));
@@ -128,8 +162,18 @@ function renderCards(){const box=document.getElementById("cards");box.innerHTML=
 box.querySelectorAll(".flip").forEach(card=>{card.innerHTML=`<div class="front"><div class="cn">${card.dataset.front}</div><div class="hint">点击看英文</div></div><div class="back" hidden><div class="en">${card.dataset.back}</div><div class="hint">${card.dataset.hint}</div></div>`;
 card.onclick=()=>{const f=card.querySelector(".front"),b=card.querySelector(".back"),show=b.hidden;f.hidden=show;b.hidden=!show}})}
 function renderHistory(){document.getElementById("statTried").textContent=state.tries.length;document.getElementById("statRight").textContent=state.tries.filter(t=>t.ok).length;document.getElementById("statNeed").textContent=ITEMS.filter(it=>srsDue(state.srs[it.id])).length;
-const box=document.getElementById("historyList");if(!state.tries.length)return;
+const box=document.getElementById("historyList");if(!state.tries.length){box.innerHTML='<p class="sub">还沠有记录。</p>';return;}
 const names=Object.fromEntries(ITEMS.map(it=>[it.id,it.title]));
 box.innerHTML=state.tries.slice().reverse().slice(0,40).map(t=>{const time=new Date(t.at).toLocaleString("zh-CN",{hour12:false});return `<div class="history-item"><span>${time}</span><span>${t.note||((t.ok?"做对 ":"未掌握 ")+(names[t.id]||""))}</span></div>`}).join("")}
-renderList();renderByQ();renderByTag();renderCards();renderHistory();
+function bindSettings(){
+  const input=document.getElementById("tokenInput");
+  input.value=getToken();
+  document.getElementById("saveToken").onclick=()=>{setToken(input.value);setSyncStatus(getToken()?"token 已存本机，正在写一次":"已清掉 token");if(getToken())pushRemote();};
+  document.getElementById("clearToken").onclick=()=>{setToken("");input.value="";setSyncStatus("已清掉 token，只用本机进度");};
+  document.getElementById("pullNow").onclick=()=>pullRemote();
+  document.getElementById("pushNow").onclick=()=>pushRemote();
+  setSyncStatus(getToken()?"已有 token，可以写回仓库":"读取不要 token；要写回仓库请贴 token");
+}
+renderList();renderByQ();renderByTag();renderCards();renderHistory();bindSettings();
+pullRemote();
 </script></body></html>
