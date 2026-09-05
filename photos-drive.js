@@ -6,3 +6,8 @@ PHOTO["photos/email-gavin-hospital.jpg"] = "https://drive.google.com/thumbnail?i
 PHOTO["photos/p147-dolphin.jpg"] = "https://drive.google.com/thumbnail?id=1Kcl-9Kjx_Iru6RBaOe_YJxhSSs3ctOQH&sz=w1200";
 PHOTO["photos/email-jessie-job.jpg"] = "https://drive.google.com/thumbnail?id=1vzGyrLFX9yLo9Vundsz91yqPBtFR7pJG&sz=w1200";
 PHOTO["photos/p153-first-films.jpg"] = "https://drive.google.com/thumbnail?id=1qAf_-2Fa6VIh2W599cpOuN8pPsT7FNRx&sz=w1200";
+PHOTO["photos/p88-tennis-sharks.jpg"] = "https://drive.google.com/thumbnail?id=1mHnN1PulfZK7N_08jiUzoIOk11l30l84&sz=w1200";
+PHOTO["photos/p89-hotter-dubai.jpg"] = "https://drive.google.com/thumbnail?id=1j4r-Jf7OPQw2rZ2Its9vCca0YiPNAYvj&sz=w1200";
+PHOTO["photos/p90-camels-figures.jpg"] = "https://drive.google.com/thumbnail?id=1ZOwS8xqBuQt_GX_7SSMiYiErPSlihrxy&sz=w1200";
+PHOTO["photos/p91-figures-gwen.jpg"] = "https://drive.google.com/thumbnail?id=1InqbDvS8etA-NWzfz04WjHgERyX1J7tJ&sz=w1200";
+PHOTO["photos/p92-ukulele.jpg"] = "https://drive.google.com/thumbnail?id=1I6_AOJzFatwsqNUBu2gcNamF4pLGagYq&sz=w1200";
