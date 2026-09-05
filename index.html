@@ -40,9 +40,12 @@ img.page{width:100%;border-radius:12px;border:1px solid var(--line)}
 .field{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font-size:14px;margin:8px 0 4px}
 label.lbl{font-size:13px;color:var(--muted);font-weight:650}
 ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
+.fold-head{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.fold-head h3{margin:0;font-size:16px}
+.fold-body{margin:0 0 12px}
 </style></head>
 <body>
-<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.8.0</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.8.1</span></h1><p class="sub">按题目 · 按知识点 · 原题照片 · 进度同步</p></header>
 <main>
 <div class="tabs" id="mainTabs">
 <button class="active" data-tab="list">今日复习</button>
@@ -65,7 +68,7 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 <section id="learned" class="panel"></section>
 <section id="history" class="panel">
 <div class="stats"><div class="stat"><b id="statTried">0</b><span>练习次数</span></div><div class="stat"><b id="statRight">0</b><span>做对</span></div><div class="stat"><b id="statNeed">0</b><span>今日到期</span></div></div>
-<div class="card" id="historyList"><p class="sub">还没有记录。</p></div>
+<div class="card" id="historyList"><p class="sub">还沠有记录。</p></div>
 </section>
 <section id="settings" class="panel">
 <div class="card">
@@ -95,38 +98,38 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </div>
 </section>
 </main>
-<script src="data.js?v=0.8.0"></script>
-<script src="data/p135-central-park.js?v=0.8.0"></script>
-<script src="data/mail-jerry-bill.js?v=0.8.0"></script>
-<script src="data/p141-holidays.js?v=0.8.0"></script>
-<script src="data/mail-hospital.js?v=0.8.0"></script>
-<script src="data/p147-dolphin.js?v=0.8.0"></script>
-<script src="data/p153-first-films.js?v=0.8.0"></script>
-<script src="data/mail-jessie-job.js?v=0.8.0"></script>
-<script src="data/tennis.js?v=0.8.0"></script>
-<script src="data/sharks-whales.js?v=0.8.0"></script>
-<script src="data/world-hotter.js?v=0.8.0"></script>
-<script src="data/bactrian-camels.js?v=0.8.0"></script>
-<script src="data/action-figures.js?v=0.8.0"></script>
-<script src="data/gwen-stefani.js?v=0.8.0"></script>
-<script src="data/ukulele.js?v=0.8.0"></script>
-<script src="data/sophia-anne.js?v=0.8.0"></script>
-<script src="data/jenny-mr-brown.js?v=0.8.0"></script>
-<script src="data/eric-frank.js?v=0.8.0"></script>
-<script src="data/beatrix-potter.js?v=0.8.0"></script>
-<script src="data/hanna-bookstore.js?v=0.8.0"></script>
-<script src="data/first-films-p111.js?v=0.8.0"></script>
-<script src="data/philip-stairs.js?v=0.8.0"></script>
-<script src="data/thanksgiving.js?v=0.8.0"></script>
-<script src="data/jack-jenny.js?v=0.8.0"></script>
-<script src="data/zoo.js?v=0.8.0"></script>
-<script src="data/justin-tommy.js?v=0.8.0"></script>
-<script src="data/jellyfish.js?v=0.8.0"></script>
-<script src="data/amy-sarah.js?v=0.8.0"></script>
-<script src="data/cards.js?v=0.8.0"></script>
-<script src="group.js?v=0.8.0"></script>
-<script src="photos-drive.js?v=0.8.0"></script>
-<script src="srs.js?v=0.8.0"></script>
-<script src="sync.js?v=0.8.0"></script>
-<script src="app.js?v=0.8.0"></script>
+<script src="data.js?v=0.8.1"></script>
+<script src="data/p135-central-park.js?v=0.8.1"></script>
+<script src="data/mail-jerry-bill.js?v=0.8.1"></script>
+<script src="data/p141-holidays.js?v=0.8.1"></script>
+<script src="data/mail-hospital.js?v=0.8.1"></script>
+<script src="data/p147-dolphin.js?v=0.8.1"></script>
+<script src="data/p153-first-films.js?v=0.8.1"></script>
+<script src="data/mail-jessie-job.js?v=0.8.1"></script>
+<script src="data/tennis.js?v=0.8.1"></script>
+<script src="data/sharks-whales.js?v=0.8.1"></script>
+<script src="data/world-hotter.js?v=0.8.1"></script>
+<script src="data/bactrian-camels.js?v=0.8.1"></script>
+<script src="data/action-figures.js?v=0.8.1"></script>
+<script src="data/gwen-stefani.js?v=0.8.1"></script>
+<script src="data/ukulele.js?v=0.8.1"></script>
+<script src="data/sophia-anne.js?v=0.8.1"></script>
+<script src="data/jenny-mr-brown.js?v=0.8.1"></script>
+<script src="data/eric-frank.js?v=0.8.1"></script>
+<script src="data/beatrix-potter.js?v=0.8.1"></script>
+<script src="data/hanna-bookstore.js?v=0.8.1"></script>
+<script src="data/first-films-p111.js?v=0.8.1"></script>
+<script src="data/philip-stairs.js?v=0.8.1"></script>
+<script src="data/thanksgiving.js?v=0.8.1"></script>
+<script src="data/jack-jenny.js?v=0.8.1"></script>
+<script src="data/zoo.js?v=0.8.1"></script>
+<script src="data/justin-tommy.js?v=0.8.1"></script>
+<script src="data/jellyfish.js?v=0.8.1"></script>
+<script src="data/amy-sarah.js?v=0.8.1"></script>
+<script src="data/cards.js?v=0.8.1"></script>
+<script src="group.js?v=0.8.1"></script>
+<script src="photos-drive.js?v=0.8.1"></script>
+<script src="srs.js?v=0.8.1"></script>
+<script src="sync.js?v=0.8.1"></script>
+<script src="app.js?v=0.8.1"></script>
 </body></html>
