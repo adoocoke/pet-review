@@ -1,6 +1,6 @@
 # pet-review
 
-**当前版本 0.5.0**（2026-09-04）  
+**当前版本 0.7.0**（2026-09-05）  
 进度键：浏览器 `localStorage` → `pet-review-v4`（兼容读入旧的 `pet-review-v3`）  
 云端进度：仓库根目录 `progress.json`
 
@@ -33,7 +33,19 @@
 
 ## 版本记录
 
-小改文档 / 修链接用第三位（๎.4.1）；加题、加功能用第二位（0.5.0）。
+小改文档 / 修链接用第三位（0.4.1）；加题、加功能用第二位（0.7.0）。
+
+### 0.7.0 · 2026-09-05
+
+- 入库 KET Test 2–9 里圈过、改过或拿不准的题（#22）
+- Tennis：enter sb for / like you / one of the
+- Sharks：metres long / not too deep
+- Getting hotter：stop … from / cold areas / have a problem
+- Camels：desert ≠ dessert / winter
+- Action figures：these things
+- Gwen Stefani：draws / favourite
+- Ukulele：sound / movie stars / surprising / quickly
+- Dubai 6/6、驼驼其余 5 题全对，不入库
 
 ### 0.5.0 · 2026-09-04
 
@@ -83,7 +95,7 @@
 | `srs.js` | 间隔复习 |
 | `photos/` | 原题照片 |
 
-## 下一步（网页版还沠做）
+## 下一步（网页版还没做）
 
 - 家长端：拍照后一键入库
 - PET 题型扩面
