@@ -13,5 +13,21 @@ CARDS.push(
 ["径直过来","come straight to","came straight to us"],
 ["担任某职","work as","shop assistant"],
 ["为公司干","work for","work for a shop"],
-["从到","from ... to","from five to nine"]
+["从到","from ... to","from five to nine"],
+["给某人报名","enter sb for","enter you for a competition"],
+["跟你一样","like you","who are like you"],
+["……之一","one of the","one of the top players"],
+["身长","metres long","six metres long · 不是 high"],
+["不太深","not too deep","water near beaches"],
+["阻止……做","stop ... from","stops the air from going up"],
+["寒冷地区的冰","ice in cold areas","不是 hot areas"],
+["遇到麻烦","have a problem","towns near the sea"],
+["沙漠","desert","不是 dessert / winter"],
+["这些事","these things","not jobs"],
+["画这些图","draw pictures","cartoon artist draws"],
+["最喜欢的","favourite","her favourite film"],
+["发出声音","make a sound","strings make a sound"],
+["电影明星","movie stars","不是 moons"],
+["令人吃惊","surprising","this is surprising · 人用 surprised"],
+["很快学会","really quickly","because it is easy"]
 );
