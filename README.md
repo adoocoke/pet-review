@@ -1,6 +1,6 @@
 # pet-review
 
-**当前版本 0.7.0**（2026-09-05）  
+**当前版本 0.8.0**（2026-09-05）  
 进度键：浏览器 `localStorage` → `pet-review-v4`（兼容读入旧的 `pet-review-v3`）  
 云端进度：仓库根目录 `progress.json`
 
@@ -33,7 +33,13 @@
 
 ## 版本记录
 
-小改文档 / 修链接用第三位（0.4.1）；加题、加功能用第二位（0.7.0）。
+小改文档 / 修链接用第三位（0.4.1）；加题、加功能用第二位（0.8.0）。
+
+### 0.8.0 · 2026-09-05
+
+- 入库 Part 5 邮件 + Part 4 Potter / Films p.111 / Thanksgiving / Zoo / Jellyfish 里改笔、双写的空（#23）
+- 33 道：tell sb that、be back at school、has been、go for a walk、arrive at、got married、A and I、enjoy ourselves、find out、have been to、afraid of、too close to、go for a ride 等
+- Test 3 / Test 5 没写完的空先不入
 
 ### 0.7.0 · 2026-09-05
 

@@ -11,3 +11,16 @@ PHOTO["photos/p89-hotter-dubai.jpg"] = "https://drive.google.com/thumbnail?id=1j
 PHOTO["photos/p90-camels-figures.jpg"] = "https://drive.google.com/thumbnail?id=1ZOwS8xqBuQt_GX_7SSMiYiErPSlihrxy&sz=w1200";
 PHOTO["photos/p91-figures-gwen.jpg"] = "https://drive.google.com/thumbnail?id=1InqbDvS8etA-NWzfz04WjHgERyX1J7tJ&sz=w1200";
 PHOTO["photos/p92-ukulele.jpg"] = "https://drive.google.com/thumbnail?id=1I6_AOJzFatwsqNUBu2gcNamF4pLGagYq&sz=w1200";
+PHOTO["photos/p95-sophia-anne.jpg"] = "https://drive.google.com/thumbnail?id=1sIeiQJDXB4Jrd3Ib9mAVhSnAAfqtMNBI&sz=w1200";
+PHOTO["photos/p96-jenny-amy.jpg"] = "https://drive.google.com/thumbnail?id=1zeyGi9yIltjxLKOV-IhasX06LjGJp3g_&sz=w1200";
+PHOTO["photos/p97-eric-frank.jpg"] = "https://drive.google.com/thumbnail?id=1ejomrmLQfH2aICa1psjKB2dY9vdFmcy2&sz=w1200";
+PHOTO["photos/p105-beatrix.jpg"] = "https://drive.google.com/thumbnail?id=183bWV_kyGNrWmponY3XjP5ov4NCIH-7Q&sz=w1200";
+PHOTO["photos/p106-hanna-bookstore.jpg"] = "https://drive.google.com/thumbnail?id=1z6Cg50HILDElNdwtlAXLaQUimSV2-RJx&sz=w1200";
+PHOTO["photos/p111-first-films.jpg"] = "https://drive.google.com/thumbnail?id=1sd_zrwllukGLjvE8TfqJADDJtnVRqyit&sz=w1200";
+PHOTO["photos/p112-philip-stairs.jpg"] = "https://drive.google.com/thumbnail?id=1_H-KYteKN-sZH6CgE8bBIfyLB79AGV1_&sz=w1200";
+PHOTO["photos/p117-thanksgiving.jpg"] = "https://drive.google.com/thumbnail?id=1hDcQZ7cf6VpHREu35z_qQMgkQWDX3YZZ&sz=w1200";
+PHOTO["photos/p118-jack-jenny.jpg"] = "https://drive.google.com/thumbnail?id=1jo-54ojCvUnTuVPZ6GtF6zxwWrb-Vei9&sz=w1200";
+PHOTO["photos/p123-zoo.jpg"] = "https://drive.google.com/thumbnail?id=17T6czCHw1zRKovfJxEhkeUPNNFQTuWhP&sz=w1200";
+PHOTO["photos/p124-justin-tommy.jpg"] = "https://drive.google.com/thumbnail?id=1YdN4yfmZ5yBqNkXcY0EbO5wMV7UQqMLz&sz=w1200";
+PHOTO["photos/p129-jellyfish.jpg"] = "https://drive.google.com/thumbnail?id=1Q4DxXBymu93GGHcNaVtNp9j99aUWGfEi&sz=w1200";
+PHOTO["photos/p130-amy-sarah.jpg"] = "https://drive.google.com/thumbnail?id=1hABbw4uOgJc3ox8MW7pvK0EsbHiUJ_D8&sz=w1200";
