@@ -45,9 +45,24 @@ return `<div class="card item ${due||inRedo(it)?"due":""}" data-id="${it.id}"><d
 function renderByQ(){const box=document.getElementById("byQ");const map=itemsByPassage();
 box.innerHTML="<div class=\"card\"><p>按<b>原题</b>归堆。</p></div>"+Object.keys(map).map(name=>{const list=map[name];return `<div class="card"><h3 style="margin:0 0 8px">${name}</h3><p class="sub">${list.length} 道</p></div>`+list.map(itemRow).join("")}).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByPassage()[it.passage])||[it]);openDetail(el.dataset.id,"quiz")}))}
-function renderByTag(){const box=document.getElementById("byTag");const map=itemsByTag();
-box.innerHTML="<div class=\"card\"><p>按<b>知识点</b>归堆。</p></div>"+TAG_ORDER.map(tag=>{const list=map[tag]||[];if(!list.length)return"";return `<div class="card"><h3 style="margin:0 0 6px">${tag}</h3><p class="sub">${list.length} 题</p></div>`+list.map(itemRow).join("")}).join("");
-box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByTag()[it.tag])||[it]);openDetail(el.dataset.id,"quiz")}))}
+const TAG_OPEN_KEY="pet-review-tag-open";
+function tagOpenMap(){try{return JSON.parse(localStorage.getItem(TAG_OPEN_KEY)||"{}")}catch(e){return {}}}
+function setTagOpen(tag,open){const m=tagOpenMap();m[tag]=!!open;localStorage.setItem(TAG_OPEN_KEY,JSON.stringify(m))}
+function renderByTag(){const box=document.getElementById("byTag");const map=itemsByTag();const opened=tagOpenMap();
+box.innerHTML='<div class="card"><p>按<b>知识点</b>归堆。点一类展开，再点收起。</p></div>'+TAG_ORDER.map(tag=>{
+  const list=map[tag]||[];if(!list.length)return"";
+  const shown=opened[tag]===true;
+  return `<div class="fold">
+    <div class="card fold-head" data-tag="${tag}"><div><h3>${shown?"▾":"▸"} ${tag}</h3><p class="sub">${list.length} 题</p></div><button type="button" class="ghost">${shown?"收起":"展开"}</button></div>
+    <div class="fold-body"${shown?"":" hidden"}>${list.map(itemRow).join("")}</div>
+  </div>`;
+}).join("");
+box.querySelectorAll(".fold-head").forEach(el=>el.addEventListener("click",()=>{
+  const tag=el.dataset.tag;setTagOpen(tag,tagOpenMap()[tag]!==true);renderByTag();
+}));
+box.querySelectorAll(".fold-body .item").forEach(el=>el.addEventListener("click",()=>{
+  const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByTag()[it.tag])||[it]);openDetail(el.dataset.id,"quiz");
+}))}
 function openDetail(id,tab){const it=ITEMS.find(x=>x.id===id);const el=document.getElementById("detail");
 el.innerHTML=`<div class="row"><button class="ghost" id="backList">← 返回</button></div>
 <div class="tabs" id="subTabs">
