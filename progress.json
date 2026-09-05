@@ -1,6 +1,6 @@
 {
   "v": 4,
-  "updatedAt": 1788576098104,
+  "updatedAt": 1788578420808,
   "srs": {
     "p135-q23": {
       "step": 2,
@@ -183,6 +183,171 @@
       "step": 0,
       "next": 1788574062968,
       "streak": 0
+    },
+    "sophia-q1": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "sophia-q3": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "sophia-q4": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "jenny-q2": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "jenny-q5": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "eric-q1": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "eric-q2": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "eric-q5": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "potter-q20": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "potter-q24": {
+      "step": 0,
+      "next": 1788578071461,
+      "streak": 0
+    },
+    "hanna-q25": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "hanna-q27": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "hanna-q28": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "hanna-q30": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "films2-q19": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "films2-q20": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "films2-q21": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "philip-q27": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "philip-q29": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "philip-q30": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "thx-q21": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "thx-q22": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "jack-q25": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "jack-q26": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "jack-q28": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "jack-q29": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "zoo-q19": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "zoo-q24": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "justin-q27": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "jelly-q22": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "jelly-q24": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "amy-q27": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
+    },
+    "amy-q29": {
+      "step": 0,
+      "next": 1788578071463,
+      "streak": 0
     }
   },
   "need": {
@@ -218,7 +383,40 @@
     "uke-q1": true,
     "uke-q4": true,
     "uke-q5": true,
-    "uke-q6": true
+    "uke-q6": true,
+    "sophia-q1": true,
+    "sophia-q3": true,
+    "sophia-q4": true,
+    "jenny-q2": true,
+    "jenny-q5": true,
+    "eric-q1": true,
+    "eric-q2": true,
+    "eric-q5": true,
+    "potter-q20": true,
+    "potter-q24": true,
+    "hanna-q25": true,
+    "hanna-q27": true,
+    "hanna-q28": true,
+    "hanna-q30": true,
+    "films2-q19": true,
+    "films2-q20": true,
+    "films2-q21": true,
+    "philip-q27": true,
+    "philip-q29": true,
+    "philip-q30": true,
+    "thx-q21": true,
+    "thx-q22": true,
+    "jack-q25": true,
+    "jack-q26": true,
+    "jack-q28": true,
+    "jack-q29": true,
+    "zoo-q19": true,
+    "zoo-q24": true,
+    "justin-q27": true,
+    "jelly-q22": true,
+    "jelly-q24": true,
+    "amy-q27": true,
+    "amy-q29": true
   },
   "wrong": {},
   "tries": [
