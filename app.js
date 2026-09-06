@@ -5,6 +5,8 @@ function nextId(id){const i=navList.findIndex(x=>x.id===id);if(i<0||i>=navList.l
 const LEARNED_STREAK=3;
 function isLearned(it){return ((state.srs[it.id]||{}).streak||0)>=LEARNED_STREAK;}
 function inRedo(it){return !!(state.wrong&&state.wrong[it.id]);}
+function examOf(it){return it.exam||"KET"}
+function examClass(it){return examOf(it)==="PET"?"pet":"ket"}
 function displayTitle(it){
   let t=it.title||"";
   const ans=String(it.fill||it.answer||"").trim();
@@ -23,7 +25,7 @@ if(!state.wrong)state.wrong={};
 ITEMS.forEach(it=>{if(state.need[it.id]===undefined)state.need[it.id]=true;srsInit(it.id,state)});
 function save(opts){
   localStorage.setItem(KEY,JSON.stringify(state));
-  renderList();renderByQ();renderByTag();renderRedo();renderLater();renderLearned();renderHistory();
+  renderList();renderByQ();renderByTag();renderByExam();renderRedo();renderLater();renderLearned();renderHistory();
   if(!opts||!opts.skipPush)schedulePush();
 }
 function photoSrc(path){return (window.PHOTO&&PHOTO[path])||path}
@@ -41,7 +43,7 @@ box.innerHTML=intro+dueNew.map(it=>itemRow(it,true)).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(dueNew);openDetail(el.dataset.id,"quiz")}))}
 function itemRow(it,forceDue){const rec=state.srs[it.id]||{streak:0};const due=forceDue||(srsDue(rec)&&!isLearned(it));
 const badge=inRedo(it)?"二次错题":isLearned(it)?"已学会":due?"今日到期":srsWhen(rec);
-return `<div class="card item ${due||inRedo(it)?"due":""}" data-id="${it.id}"><div><span class="badge ${due||inRedo(it)?"":"ok"}">${badge}</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">开始</button></div>`}
+return `<div class="card item ${due||inRedo(it)?"due":""}" data-id="${it.id}"><div><span class="badge ${due||inRedo(it)?"":"ok"}">${badge}</span><span class="badge ${examClass(it)}">${examOf(it)}</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">开始</button></div>`}
 function renderByQ(){const box=document.getElementById("byQ");const map=itemsByPassage();
 box.innerHTML="<div class=\"card\"><p>按<b>原题</b>归堆。</p></div>"+Object.keys(map).map(name=>{const list=map[name];return `<div class="card"><h3 style="margin:0 0 8px">${name}</h3><p class="sub">${list.length} 道</p></div>`+list.map(itemRow).join("")}).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByPassage()[it.passage])||[it]);openDetail(el.dataset.id,"quiz")}))}
@@ -63,14 +65,21 @@ box.querySelectorAll(".fold-head").forEach(el=>el.addEventListener("click",()=>{
 box.querySelectorAll(".fold-body .item").forEach(el=>el.addEventListener("click",()=>{
   const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByTag()[it.tag])||[it]);openDetail(el.dataset.id,"quiz");
 }))}
+function renderByExam(){const box=document.getElementById("byExam");if(!box)return;const map=itemsByExam();
+box.innerHTML='<div class="card"><p>按<b>考试</b>归堆。现在入库的全是 KET。后面 PET 题会进 PET 堆。</p></div>'+["KET","PET"].map(name=>{
+  const list=map[name]||[];
+  if(!list.length) return `<div class="card"><h3 style="margin:0 0 8px">${name}</h3><p class="sub">还没有题。</p></div>`;
+  return `<div class="card"><h3 style="margin:0 0 8px">${name}</h3><p class="sub">${list.length} 道</p></div>`+list.map(itemRow).join("");
+}).join("");
+box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{const it=ITEMS.find(x=>x.id===el.dataset.id);setNav((itemsByExam()[it.exam])||[it]);openDetail(el.dataset.id,"quiz")}))}
 function openDetail(id,tab){const it=ITEMS.find(x=>x.id===id);const el=document.getElementById("detail");
 el.innerHTML=`<div class="row"><button class="ghost" id="backList">← 返回</button></div>
 <div class="tabs" id="subTabs">
 <button data-sub="quiz" class="${tab==="quiz"?"active":""}">再做一次</button>
 <button data-sub="note" class="${tab==="note"?"active":""}">错因笔记</button>
 <button data-sub="photo" class="${tab==="photo"?"active":""}">看原题照片</button></div>
-<div id="sub-quiz" class="panel ${tab==="quiz"?"active":""}"><div class="card"><span class="badge">${it.tag}</span><p class="sub">${it.passage||""} · ${it.tag||""}</p><div class="q-en">${it.prompt}</div><div class="choices" id="choices"></div><div id="reasonPane" hidden><p class="sub">可以说说为什么选这个。理由对上才算对，对不上进二次错题本。</p><textarea id="reasonText" class="field" rows="3" placeholder="例如：后面是 with people，只能用 popular with"></textarea><div class="row"><button class="ghost" id="micBtn" type="button">语音输入</button><button class="primary" id="judgeReason" type="button">按理由判断</button><button class="ghost" id="skipReason" type="button">只按选项</button></div></div><div id="result" class="explain" hidden></div><div class="row"><button class="ghost" id="retry">再练一遍</button><button class="primary" id="markAgain">这题还要复习</button><button class="primary" id="nextQ">下一题</button></div></div></div>
-<div id="sub-note" class="panel ${tab==="note"?"active":""}"><div class="card"><span class="badge">${it.tag}</span><h3>${displayTitle(it)}</h3><div class="note-body">${it.note}</div></div></div>
+<div id="sub-quiz" class="panel ${tab==="quiz"?"active":""}"><div class="card"><span class="badge ${examClass(it)}">${examOf(it)}</span> <span class="badge">${it.tag}</span><p class="sub">${it.passage||""} · ${examOf(it)} · ${it.tag||""}</p><div class="q-en">${it.prompt}</div><div class="choices" id="choices"></div><div id="reasonPane" hidden><p class="sub">可以说说为什么选这个。理由对上才算对，对不上进二次错题本。</p><textarea id="reasonText" class="field" rows="3" placeholder="例如：后面是 with people，只能用 popular with"></textarea><div class="row"><button class="ghost" id="micBtn" type="button">语音输入</button><button class="primary" id="judgeReason" type="button">按理由判断</button><button class="ghost" id="skipReason" type="button">只按选项</button></div></div><div id="result" class="explain" hidden></div><div class="row"><button class="ghost" id="retry">再练一遍</button><button class="primary" id="markAgain">这题还要复习</button><button class="primary" id="nextQ">下一题</button></div></div></div>
+<div id="sub-note" class="panel ${tab==="note"?"active":""}"><div class="card"><span class="badge ${examClass(it)}">${examOf(it)}</span> <span class="badge">${it.tag}</span><h3>${displayTitle(it)}</h3><div class="note-body">${it.note}</div></div></div>
 <div id="sub-photo" class="panel ${tab==="photo"?"active":""}"><div class="card"><p>${it.passage}</p><img class="page" src="${photoSrc(it.photo)}" alt="${displayTitle(it)}"></div></div>`;
 document.querySelectorAll("#mainTabs button").forEach(b=>b.classList.remove("active"));
 document.querySelectorAll("main > .panel").forEach(p=>p.classList.remove("active"));el.classList.add("active");
@@ -128,7 +137,7 @@ card.onclick=()=>{const f=card.querySelector(".front"),b=card.querySelector(".ba
 function renderRedo(){const box=document.getElementById("redo");
 const list=ITEMS.filter(inRedo);
 if(!list.length){box.innerHTML='<div class="card"><p>二次错题本是空的。</p><p class="sub">答错或点「这题还要复习」会进这里，做对才拿出去。</p></div>';return;}
-box.innerHTML='<div class="card"><p>这 <b>'+list.length+'</b> 道还没做对，先改这些。</p></div>'+list.map(it=>`<div class="card item due" data-id="${it.id}"><div><span class="badge">二次错题</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">改错</button></div>`).join("");
+box.innerHTML='<div class="card"><p>这 <b>'+list.length+'</b> 道还没做对，先改这些。</p></div>'+list.map(it=>`<div class="card item due" data-id="${it.id}"><div><span class="badge">二次错题</span><span class="badge ${examClass(it)}">${examOf(it)}</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">改错</button></div>`).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(list);openDetail(el.dataset.id,"quiz")}))}
 function renderLater(){const box=document.getElementById("later");
 const list=ITEMS.filter(it=>!srsDue(state.srs[it.id])&&!isLearned(it)&&!inRedo(it));
@@ -139,7 +148,7 @@ box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNa
 function renderLearned(){const box=document.getElementById("learned");
 const list=ITEMS.filter(isLearned);
 if(!list.length){box.innerHTML='<div class="card"><p>还没有已学会的题。连对 '+LEARNED_STREAK+' 次会进这里。</p></div>';return;}
-box.innerHTML='<div class="card"><p>连对 <b>'+LEARNED_STREAK+'</b> 次以上的题。答错会回到二次错题本。</p></div>'+list.map(it=>{const rec=state.srs[it.id]||{};return `<div class="card item" data-id="${it.id}"><div><span class="badge ok">已学会 · ${rec.streak||0}次</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">再练</button></div>`}).join("");
+box.innerHTML='<div class="card"><p>连对 <b>'+LEARNED_STREAK+'</b> 次以上的题。答错会回到二次错题本。</p></div>'+list.map(it=>{const rec=state.srs[it.id]||{};return `<div class="card item" data-id="${it.id}"><div><span class="badge ok">已学会 · ${rec.streak||0}次</span><span class="badge ${examClass(it)}">${examOf(it)}</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">再练</button></div>`}).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(list);openDetail(el.dataset.id,"quiz")}))}
 function renderHistory(){document.getElementById("statTried").textContent=state.tries.length;document.getElementById("statRight").textContent=state.tries.filter(t=>t.ok).length;document.getElementById("statNeed").textContent=ITEMS.filter(it=>srsDue(state.srs[it.id])&&!isLearned(it)&&!inRedo(it)).length;
 const box=document.getElementById("historyList");if(!state.tries.length){box.innerHTML='<p class="sub">还没有记录。</p>';return;}
@@ -157,5 +166,5 @@ function bindSettings(){
   if(el) el.textContent="这台设备练习记录 "+n+" 次。";
   setSyncStatus(getToken()?"已有 token。做完题会写到仓库，另一台打开就能看到。":"没贴 token：这台记得住，另一台看不到。");
 }
-renderList();renderByQ();renderByTag();renderCards();renderRedo();renderLater();renderLearned();renderHistory();bindSettings();
+renderList();renderByQ();renderByTag();renderByExam();renderCards();renderRedo();renderLater();renderLearned();renderHistory();bindSettings();
 pullRemote();
