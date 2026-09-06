@@ -166,7 +166,7 @@ async function pullCloud() {
     refresh();
   } catch (e) {
     tries = loadLocalTries();
-    setStatus("仓库沠拉到，只用本机记录。");
+    setStatus("仓库没拉到，只用本机记录。");
     refresh();
   }
 }
