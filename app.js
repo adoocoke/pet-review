@@ -109,7 +109,7 @@ document.getElementById("judgeReason").onclick=()=>{
   const ok=letterOk&&chk.ok;
   let note=chk.msg;
   if(!letterOk) note="选项就不对。"+chk.msg;
-  else if(!chk.ok) note="选项对了，但理由沠对上。"+chk.msg;
+  else if(!chk.ok) note="选项对了，但理由没对上。"+chk.msg;
   finishQuiz(ok,note);
 };
 document.getElementById("skipReason").onclick=()=>{
@@ -128,21 +128,21 @@ card.onclick=()=>{const f=card.querySelector(".front"),b=card.querySelector(".ba
 function renderRedo(){const box=document.getElementById("redo");
 const list=ITEMS.filter(inRedo);
 if(!list.length){box.innerHTML='<div class="card"><p>二次错题本是空的。</p><p class="sub">答错或点「这题还要复习」会进这里，做对才拿出去。</p></div>';return;}
-box.innerHTML='<div class="card"><p>这 <b>'+list.length+'</b> 道还沠做对，先改这些。</p></div>'+list.map(it=>`<div class="card item due" data-id="${it.id}"><div><span class="badge">二次错题</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">改错</button></div>`).join("");
+box.innerHTML='<div class="card"><p>这 <b>'+list.length+'</b> 道还没做对，先改这些。</p></div>'+list.map(it=>`<div class="card item due" data-id="${it.id}"><div><span class="badge">二次错题</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">改错</button></div>`).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(list);openDetail(el.dataset.id,"quiz")}))}
 function renderLater(){const box=document.getElementById("later");
 const list=ITEMS.filter(it=>!srsDue(state.srs[it.id])&&!isLearned(it)&&!inRedo(it));
 list.sort((a,b)=>state.srs[a.id].next-state.srs[b.id].next);
-if(!list.length){box.innerHTML='<div class="card"><p>沠有在等的题。</p><p class="sub">做对之后还沠到点的会进这里。</p></div>';return;}
-box.innerHTML='<div class="card"><p>这些题还沠到点。</p></div>'+list.map(it=>itemRow(it,false)).join("");
+if(!list.length){box.innerHTML='<div class="card"><p>没有在等的题。</p><p class="sub">做对之后还没到点的会进这里。</p></div>';return;}
+box.innerHTML='<div class="card"><p>这些题还没到点。</p></div>'+list.map(it=>itemRow(it,false)).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(list);openDetail(el.dataset.id,"quiz")}))}
 function renderLearned(){const box=document.getElementById("learned");
 const list=ITEMS.filter(isLearned);
-if(!list.length){box.innerHTML='<div class="card"><p>还沠有已学会的题。连对 '+LEARNED_STREAK+' 次会进这里。</p></div>';return;}
+if(!list.length){box.innerHTML='<div class="card"><p>还没有已学会的题。连对 '+LEARNED_STREAK+' 次会进这里。</p></div>';return;}
 box.innerHTML='<div class="card"><p>连对 <b>'+LEARNED_STREAK+'</b> 次以上的题。答错会回到二次错题本。</p></div>'+list.map(it=>{const rec=state.srs[it.id]||{};return `<div class="card item" data-id="${it.id}"><div><span class="badge ok">已学会 · ${rec.streak||0}次</span><h3>${displayTitle(it)}</h3><p class="sub">${it.passage||it.tag||""}</p></div><button class="ghost">再练</button></div>`}).join("");
 box.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>{setNav(list);openDetail(el.dataset.id,"quiz")}))}
 function renderHistory(){document.getElementById("statTried").textContent=state.tries.length;document.getElementById("statRight").textContent=state.tries.filter(t=>t.ok).length;document.getElementById("statNeed").textContent=ITEMS.filter(it=>srsDue(state.srs[it.id])&&!isLearned(it)&&!inRedo(it)).length;
-const box=document.getElementById("historyList");if(!state.tries.length){box.innerHTML='<p class="sub">还沠有记录。</p>';return;}
+const box=document.getElementById("historyList");if(!state.tries.length){box.innerHTML='<p class="sub">还没有记录。</p>';return;}
 const names=Object.fromEntries(ITEMS.map(it=>[it.id,displayTitle(it)]));
 box.innerHTML=state.tries.slice().reverse().slice(0,40).map(t=>{const time=new Date(t.at).toLocaleString("zh-CN",{hour12:false});return `<div class="history-item"><span>${time}</span><span>${t.note||((t.ok?"做对 ":"二次错题 ")+(names[t.id]||""))}</span></div>`}).join("")}
 function bindSettings(){
@@ -155,7 +155,7 @@ function bindSettings(){
   const n=(state.tries||[]).length;
   const el=document.getElementById("localMem");
   if(el) el.textContent="这台设备练习记录 "+n+" 次。";
-  setSyncStatus(getToken()?"已有 token。做完题会写到仓库，另一台打开就能看到。":"沠贴 token：这台记得住，另一台看不到。");
+  setSyncStatus(getToken()?"已有 token。做完题会写到仓库，另一台打开就能看到。":"没贴 token：这台记得住，另一台看不到。");
 }
 renderList();renderByQ();renderByTag();renderCards();renderRedo();renderLater();renderLearned();renderHistory();bindSettings();
 pullRemote();
