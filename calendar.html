@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<title>打卡日历 · KET/PET Review</title>
+<style>
+:root{--bg:#f4f1ea;--paper:#fffdf8;--ink:#1f2933;--muted:#5b6773;--line:#e4ddd2;--red:#c0392b;--green:#1f7a4d;--gold:#c9842a;--soft-red:#fdecea;--soft-green:#e8f6ee;--soft-blue:#eaf2fb}
+*{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Noto Sans SC",sans-serif;background:#f4f1ea;color:#1f2933;line-height:1.55}
+header,main{max-width:860px;margin:0 auto}header{padding:20px 20px 8px}
+.kicker{margin:0;letter-spacing:.12em;font-size:12px;color:var(--gold);font-weight:700}
+h1{margin:6px 0 4px;font-size:24px}.sub{margin:0;color:var(--muted);font-size:14px}
+main{padding:12px 16px 56px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button.ghost,a.ghost{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer;color:var(--ink);text-decoration:none;font-size:14px}
+button.primary{background:var(--ink);color:#fff;border:0;border-radius:12px;padding:8px 12px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.cal-nav h2{margin:0;font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.dow{text-align:center;font-size:12px;color:var(--muted);padding:4px 0}
+.cell{min-height:56px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font:inherit}
+.cell.empty{border:0;background:transparent;cursor:default}
+.cell .num{font-size:14px;font-weight:650}
+.cell .n{font-size:11px;color:var(--green);font-weight:700}
+.cell .dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:block;margin:3px 0 1px}
+.cell.done{background:var(--soft-green)}
+.cell.today{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.cell.picked{background:var(--ink);color:#fff}
+.cell.picked .n,.cell.picked .dot{color:#fff;background:#fff}
+h3{margin:0 0 8px;font-size:16px}
+</style>
+</head>
+<body>
+<header>
+<p class="kicker">KET / PET REVIEW</p>
+<h1>打卡日历</h1>
+<p class="sub">这天做题了就自动记上。点一天看题量和正确率。</p>
+</header>
+<main>
+<div class="row" style="margin-bottom:12px">
+<a class="ghost" href="index.html">← 回复习</a>
+<button class="ghost" id="thisM">回到本月</button>
+</div>
+<div class="stats">
+<div class="stat"><b id="sumDays">0</b><span>打卡天数</span></div>
+<div class="stat"><b id="sumStreak">0</b><span>连续打卡</span></div>
+<div class="stat"><b id="sumToday">0</b><span>今天做题</span></div>
+</div>
+<div class="stats">
+<div class="stat"><b id="sumMonth">0</b><span>本月打卡天</span></div>
+<div class="stat"><b id="sumMonthRate">—</b><span>本月正确率</span></div>
+<div class="stat"><b>·</b><span>做题即打卡</span></div>
+</div>
+<div class="card">
+<div class="cal-nav">
+<button class="ghost" id="prevM">上个月</button>
+<h2 id="calTitle"></h2>
+<button class="ghost" id="nextM">下个月</button>
+</div>
+<div class="grid" id="calGrid"></div>
+</div>
+<div class="card" id="calDetail"></div>
+<p class="sub" id="calStatus">先看本机记录。</p>
+</main>
+<script src="calendar.js?v=0.9.0"></script>
+</body>
+</html>
