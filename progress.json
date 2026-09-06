@@ -1,6 +1,6 @@
 {
   "v": 4,
-  "updatedAt": 1788656194804,
+  "updatedAt": 1788677282383,
   "srs": {
     "p135-q23": {
       "step": 3,
@@ -75,10 +75,10 @@
       "last": 1788655915904
     },
     "dol-q22": {
-      "step": 2,
-      "next": 1788541118565,
-      "streak": 2,
-      "last": 1788512318565
+      "step": 0,
+      "next": 1788678468239,
+      "streak": 0,
+      "last": 1788677280239
     },
     "job-q25": {
       "step": 2,
@@ -363,7 +363,7 @@
     "hosp-q30": false,
     "dol-q19": false,
     "dol-q20": false,
-    "dol-q22": false,
+    "dol-q22": true,
     "job-q25": false,
     "job-q26": false,
     "films-q20": false,
@@ -419,7 +419,8 @@
     "amy-q29": true
   },
   "wrong": {
-    "mail1-q27": true
+    "mail1-q27": true,
+    "dol-q22": true
   },
   "tries": [
     {
@@ -661,6 +662,12 @@
       "at": "2026-09-06T00:51:55.904Z",
       "id": "dol-q20",
       "ok": true
+    },
+    {
+      "at": "2026-09-06T06:48:00.239Z",
+      "id": "dol-q22",
+      "ok": false,
+      "reason": "选项对了，但理由沠对上。理由沠对上这题的关键词（正确答案那个词，或搭配）。进二次错题本。"
     }
   ]
 }
