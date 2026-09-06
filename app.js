@@ -69,7 +69,7 @@ el.innerHTML=`<div class="row"><button class="ghost" id="backList">← 返回</b
 <button data-sub="quiz" class="${tab==="quiz"?"active":""}">再做一次</button>
 <button data-sub="note" class="${tab==="note"?"active":""}">错因笔记</button>
 <button data-sub="photo" class="${tab==="photo"?"active":""}">看原题照片</button></div>
-<div id="sub-quiz" class="panel ${tab==="quiz"?"active":""}"><div class="card"><span class="badge">${it.tag}</span><p class="sub">${it.passage||""} · ${it.tag||""}</p><div class="q-en">${it.prompt}</div><div class="choices" id="choices"></div><div id="result" class="explain" hidden></div><div class="row"><button class="ghost" id="retry">再练一遍</button><button class="primary" id="markAgain">这题还要复习</button><button class="primary" id="nextQ">下一题</button></div></div></div>
+<div id="sub-quiz" class="panel ${tab==="quiz"?"active":""}"><div class="card"><span class="badge">${it.tag}</span><p class="sub">${it.passage||""} · ${it.tag||""}</p><div class="q-en">${it.prompt}</div><div class="choices" id="choices"></div><div id="reasonPane" hidden><p class="sub">可以说说为什么选这个。理由对上才算对，对不上进二次错题本。</p><textarea id="reasonText" class="field" rows="3" placeholder="例如：后面是 with people，只能用 popular with"></textarea><div class="row"><button class="ghost" id="micBtn" type="button">语音输入</button><button class="primary" id="judgeReason" type="button">按理由判断</button><button class="ghost" id="skipReason" type="button">只按选项</button></div></div><div id="result" class="explain" hidden></div><div class="row"><button class="ghost" id="retry">再练一遍</button><button class="primary" id="markAgain">这题还要复习</button><button class="primary" id="nextQ">下一题</button></div></div></div>
 <div id="sub-note" class="panel ${tab==="note"?"active":""}"><div class="card"><span class="badge">${it.tag}</span><h3>${displayTitle(it)}</h3><div class="note-body">${it.note}</div></div></div>
 <div id="sub-photo" class="panel ${tab==="photo"?"active":""}"><div class="card"><p>${it.passage}</p><img class="page" src="${photoSrc(it.photo)}" alt="${displayTitle(it)}"></div></div>`;
 document.querySelectorAll("#mainTabs button").forEach(b=>b.classList.remove("active"));
@@ -77,14 +77,47 @@ document.querySelectorAll("main > .panel").forEach(p=>p.classList.remove("active
 document.getElementById("backList").onclick=()=>document.querySelector('#mainTabs button[data-tab="list"]').click();
 el.querySelectorAll("#subTabs button").forEach(b=>b.onclick=()=>{el.querySelectorAll("#subTabs button").forEach(x=>x.classList.remove("active"));el.querySelectorAll("#sub-quiz,#sub-note,#sub-photo").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById("sub-"+b.dataset.sub).classList.add("active")});
 const choices=document.getElementById("choices");
+function finishQuiz(ok,reasonNote){
+  choices.dataset.locked="1";
+  choices.querySelectorAll("button").forEach(x=>x.classList.remove("picked"));
+  const right=choices.querySelector('[data-key="'+it.answer+'"]');
+  if(right)right.classList.add("correct");
+  if(!ok){const w=choices.querySelector(".picked-keep");if(w&&w.dataset.key!==it.answer)w.classList.add("wrong");}
+  const blank=el.querySelector(".blank");if(blank)blank.textContent=it.fill;
+  const rec=srsMark(srsInit(it.id,state),ok);state.need[it.id]=!ok;if(ok)delete state.wrong[it.id];else state.wrong[it.id]=true;
+  const result=document.getElementById("result");result.hidden=false;
+  const pane=document.getElementById("reasonPane");if(pane)pane.hidden=true;
+  result.innerHTML=(ok?"<strong>对了。</strong> ":"<strong>进二次错题本。</strong> ")+(reasonNote?("<p>"+reasonNote+"</p>"):"")+(ok?it.ok:it.bad)+"<p>下次：<b>"+(ok?SRS_STEPS[rec.step].label:"留在二次错题里改")+"</b></p>";
+  state.tries.push({at:new Date().toISOString(),id:it.id,ok,reason:reasonNote||""});save();
+}
 it.options.forEach(op=>{const b=document.createElement("button");b.dataset.key=op.key;b.textContent=op.text;
-b.onclick=()=>{if(choices.dataset.locked==="1")return;choices.dataset.locked="1";const ok=op.key===it.answer;
-b.classList.add(ok?"correct":"wrong");choices.querySelector('[data-key="'+it.answer+'"]').classList.add("correct");
-const blank=el.querySelector(".blank");if(blank)blank.textContent=it.fill;
-const rec=srsMark(srsInit(it.id,state),ok);state.need[it.id]=!ok;if(ok)delete state.wrong[it.id];else state.wrong[it.id]=true;
-const result=document.getElementById("result");result.hidden=false;
-result.innerHTML=(ok?"<strong>对了。</strong> ":"<strong>进二次错题本。</strong> ")+(ok?it.ok:it.bad)+"<p>下次：<b>"+(ok?SRS_STEPS[rec.step].label:"留在二次错题里改")+"</b></p>";
-state.tries.push({at:new Date().toISOString(),id:it.id,ok});save()};choices.appendChild(b)});
+b.onclick=()=>{if(choices.dataset.locked==="1")return;
+choices.querySelectorAll("button").forEach(x=>{x.classList.remove("picked");x.classList.remove("picked-keep")});
+b.classList.add("picked");b.classList.add("picked-keep");
+const pane=document.getElementById("reasonPane");pane.hidden=false;
+document.getElementById("reasonText").value="";
+document.getElementById("result").hidden=true;
+};
+choices.appendChild(b)});
+document.getElementById("micBtn").onclick=()=>startListen(document.getElementById("reasonText"),document.getElementById("micBtn"));
+document.getElementById("judgeReason").onclick=()=>{
+  if(choices.dataset.locked==="1")return;
+  const picked=choices.querySelector(".picked-keep");
+  if(!picked){document.getElementById("result").hidden=false;document.getElementById("result").innerHTML="先选一个选项。";return;}
+  const letterOk=picked.dataset.key===it.answer;
+  const chk=checkReason(document.getElementById("reasonText").value,it);
+  const ok=letterOk&&chk.ok;
+  let note=chk.msg;
+  if(!letterOk) note="选项就不对。"+chk.msg;
+  else if(!chk.ok) note="选项对了，但理由沠对上。"+chk.msg;
+  finishQuiz(ok,note);
+};
+document.getElementById("skipReason").onclick=()=>{
+  if(choices.dataset.locked==="1")return;
+  const picked=choices.querySelector(".picked-keep");
+  if(!picked)return;
+  finishQuiz(picked.dataset.key===it.answer,"");
+};
 document.getElementById("retry").onclick=()=>openDetail(id,"quiz");
 document.getElementById("markAgain").onclick=()=>{srsMark(srsInit(it.id,state),false);state.need[it.id]=true;state.wrong[it.id]=true;save()};
 const nid=nextId(id);const nextBtn=document.getElementById("nextQ");
