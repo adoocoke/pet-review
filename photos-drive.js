@@ -24,3 +24,10 @@ PHOTO["photos/p123-zoo.jpg"] = "https://drive.google.com/thumbnail?id=17T6czCHw1
 PHOTO["photos/p124-justin-tommy.jpg"] = "https://drive.google.com/thumbnail?id=1YdN4yfmZ5yBqNkXcY0EbO5wMV7UQqMLz&sz=w1200";
 PHOTO["photos/p129-jellyfish.jpg"] = "https://drive.google.com/thumbnail?id=1Q4DxXBymu93GGHcNaVtNp9j99aUWGfEi&sz=w1200";
 PHOTO["photos/p130-amy-sarah.jpg"] = "https://drive.google.com/thumbnail?id=1hABbw4uOgJc3ox8MW7pvK0EsbHiUJ_D8&sz=w1200";
+PHOTO["photos/p35-notices.jpg"] = "https://drive.google.com/thumbnail?id=10FFrKqkl3DwCkpabhTTlfcfrj_0S-TF8&sz=w1200";
+PHOTO["photos/p37-notices.jpg"] = "https://drive.google.com/thumbnail?id=1rUaLYy5J9HC9vUCNHh4H6oXk4RkNqZaW&sz=w1200";
+PHOTO["photos/p38-notices.jpg"] = "https://drive.google.com/thumbnail?id=1Y4k0XPGo4B5RfweeTYc7NPXmPstfbrXE&sz=w1200";
+PHOTO["photos/p40-notices.jpg"] = "https://drive.google.com/thumbnail?id=1C3Cnhcy6B35ernzfktNpKi7tYtQBKYpb&sz=w1200";
+PHOTO["photos/p42-notices.jpg"] = "https://drive.google.com/thumbnail?id=1HvcUpXkqQR9N9m_KEULW5MaUfNoKTkOg&sz=w1200";
+PHOTO["photos/p43-notices.jpg"] = "https://drive.google.com/thumbnail?id=1P6rGJq7rMtoQb0hHwThNmZ0_O4h62phs&sz=w1200";
+PHOTO["photos/p54-camps.jpg"] = "https://drive.google.com/thumbnail?id=1jRCxb3m7lIJtg0b6kdFQpB39KKLpntZA&sz=w1200";
