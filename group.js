@@ -64,9 +64,16 @@ const GROUP = {
   "jelly-q22": { passage: "Jellyfish p.129", tag: "生词不会用", point: "be careful", exam: "KET" },
   "jelly-q24": { passage: "Jellyfish p.129", tag: "词组", point: "too close to", exam: "KET" },
   "amy-q27": { passage: "Amy → Sarah p.130", tag: "语法错误", point: "so we can", exam: "KET" },
-  "amy-q29": { passage: "Amy → Sarah p.130", tag: "固定搭配", point: "go for a ride", exam: "KET" }
+  "amy-q29": { passage: "Amy → Sarah p.130", tag: "固定搭配", point: "go for a ride", exam: "KET" },
+  "pet35-q3": { passage: "PET 告示 p.35 泳池", tag: "告示理解", point: "closed for / reserved", exam: "PET" },
+  "pet37-q3": { passage: "PET 告示 p.37 储物柜", tag: "生词不会用", point: "under examination", exam: "PET" },
+  "pet38-q5": { passage: "PET 告示 p.38 圣诞晚会", tag: "告示理解", point: "sign up online", exam: "PET" },
+  "pet40-q4": { passage: "PET 告示 p.40 二手车", tag: "告示理解", point: "call for information", exam: "PET" },
+  "pet42-q4": { passage: "PET 告示 p.42 电影票", tag: "告示理解", point: "leave the ticket", exam: "PET" },
+  "pet43-q1": { passage: "PET 告示 p.43 舞蹈课", tag: "告示理解", point: "explaining why", exam: "PET" },
+  "pet54-q4": { passage: "PET 匹配 p.54 夏令营", tag: "匹配理解", point: "skating + refreshments", exam: "PET" }
 };
-const TAG_ORDER = ["介词用法", "语法错误", "固定搭配", "词组", "生词不会用"];
+const TAG_ORDER = ["告示理解", "匹配理解", "介词用法", "语法错误", "固定搭配", "词组", "生词不会用"];
 const EXAM_ORDER = ["KET", "PET"];
 ITEMS.forEach(function (it) {
   var g = GROUP[it.id] || {};
