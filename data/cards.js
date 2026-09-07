@@ -56,5 +56,41 @@ CARDS.push(
 ["小心","be careful","swimmers had to be careful"],
 ["靠太近","too close to","get too close"],
 ["所以能","so we can","靠近山 so 能徒步"],
-["去骑一趟","go for a ride","和 go for a walk 一类"]
+["去骑一趟","go for a ride","和 go for a walk 一类"],
+["雇员","employees","employees working in this department"],
+["准备好","get prepared","revise and get prepared"],
+["机动车","motor vehicle","leave children alone in a motor vehicle"],
+["不要把孩子单独留下","do not leave ... alone","Do not leave children alone"],
+["大人 / 成人","grown-ups","be with grown-ups"],
+["储物柜","locker","students' lockers"],
+["违禁品","prohibited objects","examination for prohibited objects"],
+["正在检查","under examination","lockers are under examination"],
+["回复 / 报名回复","reply before","Please reply before Saturday"],
+["泳衣","swimsuit","don't forget your swimsuits"],
+["青少年","teens","responsible teens ages 12-17"],
+["网上报名","sign up online","Sign up online for the job"],
+["家长许可","parents' permission","Parents' permission is required"],
+["在办公室登记","register at office","use main entrance and register"],
+["二手的","second-hand / used","second-hand bicycle = used bicycle"],
+["合理的价格","reasonable price","bicycle with reasonable price"],
+["前主人","previous owners","Well kept by previous owners"],
+["因……而迟到","be late due to","late for the movie due to traffic"],
+["把票留给接待","leave the ticket to the receptionist","at the entrance"],
+["救生员值班","lifeguard on duty","NO LIFEGUARD ON DUTY"],
+["有大人陪同","with an adult's company","not use the pool without an adult"],
+["按原计划","as planned / as arranged","cannot take you as planned"],
+["紧急情况","emergency","an emergency I have to deal with"],
+["自己坐公交去","go by bus yourself","Could you go by bus yourself?"],
+["引导员 / 教练","instructor","experienced instructors"],
+["有空调的","air-conditioned","air-conditioned gym"],
+["有挑战的","challenging","challenging summer training"],
+["自信","self-confidence","building self-confidence"],
+["机会","opportunity","have the opportunity to talk to"],
+["吃点东西歇一歇","refresh themselves","canteen where players can refresh themselves"],
+["茶点","refreshments","refreshments with her friends"]
 );
+(function(){
+  var i=0;
+  for(;i<CARDS.length;i++) if(CARDS[i][1]==="employees") break;
+  for(;i<CARDS.length;i++) CARDS[i].exam="PET";
+})();
