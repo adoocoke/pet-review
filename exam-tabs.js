@@ -9,6 +9,12 @@ function setByQExam(e) {
 function countExam(name) {
   return ITEMS.filter(function (it) { return examOf(it) === name; }).length;
 }
+function examTabBar(exam, ketN, petN, id) {
+  return '<div class="tabs" id="' + id + '">' +
+    '<button type="button" data-exam="KET" class="' + (exam === "KET" ? "active" : "") + '">KET · ' + ketN + "</button>" +
+    '<button type="button" data-exam="PET" class="' + (exam === "PET" ? "active" : "") + '">PET · ' + petN + "</button>" +
+    "</div>";
+}
 function renderByQ() {
   const box = document.getElementById("byQ");
   if (!box) return;
@@ -21,10 +27,7 @@ function renderByQ() {
     (map[it.passage] = map[it.passage] || []).push(it);
   });
   const names = Object.keys(map);
-  let html = '<div class="card"><p>按<b>原题</b>归堆。先选 KET 或 PET。</p><div class="tabs" id="byQExamTabs">';
-  html += '<button type="button" data-exam="KET" class="' + (exam === "KET" ? "active" : "") + '">KET · ' + ketN + "</button>";
-  html += '<button type="button" data-exam="PET" class="' + (exam === "PET" ? "active" : "") + '">PET · ' + petN + "</button>";
-  html += "</div></div>";
+  let html = '<div class="card"><p>按<b>原题</b>归堆。先选 KET 或 PET。</p>' + examTabBar(exam, ketN, petN, "byQExamTabs") + "</div>";
   if (!names.length) {
     html += '<div class="card"><p>' + exam + " 还没有原题。</p></div>";
   } else {
@@ -35,13 +38,12 @@ function renderByQ() {
   }
   box.innerHTML = html;
   box.querySelectorAll("#byQExamTabs button").forEach(function (b) {
-    b.onclick = function () { setByQExam(b.dataset.exam); renderByQ(); };
+    b.onclick = function () { setByQExam(b.dataset.exam); renderByQ(); renderByExam(); };
   });
   box.querySelectorAll(".item").forEach(function (el) {
     el.addEventListener("click", function () {
       const it = ITEMS.find(function (x) { return x.id === el.dataset.id; });
-      const same = (map[it.passage] || [it]);
-      setNav(same);
+      setNav(map[it.passage] || [it]);
       openDetail(el.dataset.id, "quiz");
     });
   });
@@ -49,19 +51,20 @@ function renderByQ() {
 function renderByExam() {
   const box = document.getElementById("byExam");
   if (!box) return;
-  const map = itemsByExam();
-  const ketN = (map.KET || []).length;
-  const petN = (map.PET || []).length;
-  box.innerHTML = '<div class="card"><p>按<b>考试</b>归堆。KET <b>' + ketN + "</b> 道，PET <b>" + petN + "</b> 道。</p></div>" +
-    ["KET", "PET"].map(function (name) {
-      const list = map[name] || [];
-      if (!list.length) return '<div class="card"><h3 style="margin:0 0 8px">' + name + '</h3><p class="sub">还没有题。</p></div>';
-      return '<div class="card"><h3 style="margin:0 0 8px">' + name + '</h3><p class="sub">' + list.length + " 道</p></div>" + list.map(itemRow).join("");
-    }).join("");
+  const exam = byQExam();
+  const ketN = countExam("KET");
+  const petN = countExam("PET");
+  const list = ITEMS.filter(function (it) { return examOf(it) === exam; });
+  let html = '<div class="card"><p>按<b>考试</b>看题。先选 KET 或 PET。</p>' + examTabBar(exam, ketN, petN, "byExamTabs") + "</div>";
+  if (!list.length) html += '<div class="card"><p>' + exam + " 还没有题。</p></div>";
+  else html += list.map(itemRow).join("");
+  box.innerHTML = html;
+  box.querySelectorAll("#byExamTabs button").forEach(function (b) {
+    b.onclick = function () { setByQExam(b.dataset.exam); renderByExam(); renderByQ(); };
+  });
   box.querySelectorAll(".item").forEach(function (el) {
     el.addEventListener("click", function () {
-      const it = ITEMS.find(function (x) { return x.id === el.dataset.id; });
-      setNav((itemsByExam()[it.exam]) || [it]);
+      setNav(list);
       openDetail(el.dataset.id, "quiz");
     });
   });
