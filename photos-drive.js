@@ -34,3 +34,5 @@ PHOTO["photos/p54-camps.jpg"] = "https://drive.google.com/thumbnail?id=1jRCxb3m7
 PHOTO["photos/p93-snowball-clothes.jpg"] = "https://drive.google.com/thumbnail?id=1q4mkUAPxEbe8W6UL1ZqykZyNRJ2iMUOm&sz=w1200";
 PHOTO["photos/p94-clothes-speaking.jpg"] = "https://drive.google.com/thumbnail?id=1atmzUCPqr5VF3DEJMbw81BqRzam7Y9el&sz=w1200";
 PHOTO["photos/p95-chickens-lego.jpg"] = "https://drive.google.com/thumbnail?id=1qBFRoU6n8aq29X0EbLzKQ7o50C9B0dp7&sz=w1200";
+PHOTO["photos/p101-journalist-garden.jpg"] = "https://drive.google.com/thumbnail?id=13Kc2pA6aVRcT71igOADGWH6A7oXMPCNX&sz=w1200";
+PHOTO["photos/p102-nba-livewithout.jpg"] = "https://drive.google.com/thumbnail?id=1a2cOvu-vzRfPNW_rtPz8zUN8uBRSLTsI&sz=w1200";

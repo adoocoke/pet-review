@@ -15,7 +15,7 @@ note:"<p><b>when you are young</b> = 在你还年轻的时候。</p><p>make 是�
 photo:"photos/p101-journalist-garden.jpg"},
 {id:"jour-q5",exam:"PET",kind:"gap",title:"少年记者 第 5 空 Each",meta:"PET 语法填空 · Exercise 1 · p.101",
 prompt:"<span class=\"blank\">5</span> one of you could cover a different topic.",
-options:[],answer:"Each",fill:"Each",
+options:[],answer:"Each",fill:"Each",alts:["each"],
 ok:"你们每一个人可以各写一个话题。",
 bad:"书上先写了 Find。Find one of you 不像这句的开头。",
 note:"<p><b>Each one of you</b> = 你们每一个人。</p><p>大小写都行，each / Each 都算对。</p>",
