@@ -31,3 +31,6 @@ PHOTO["photos/p40-notices.jpg"] = "https://drive.google.com/thumbnail?id=1C3Cnhc
 PHOTO["photos/p42-notices.jpg"] = "https://drive.google.com/thumbnail?id=1HvcUpXkqQR9N9m_KEULW5MaUfNoKTkOg&sz=w1200";
 PHOTO["photos/p43-notices.jpg"] = "https://drive.google.com/thumbnail?id=1P6rGJq7rMtoQb0hHwThNmZ0_O4h62phs&sz=w1200";
 PHOTO["photos/p54-camps.jpg"] = "https://drive.google.com/thumbnail?id=1jRCxb3m7lIJtg0b6kdFQpB39KKLpntZA&sz=w1200";
+PHOTO["photos/p93-snowball-clothes.jpg"] = "https://drive.google.com/thumbnail?id=1q4mkUAPxEbe8W6UL1ZqykZyNRJ2iMUOm&sz=w1200";
+PHOTO["photos/p94-clothes-speaking.jpg"] = "https://drive.google.com/thumbnail?id=1atmzUCPqr5VF3DEJMbw81BqRzam7Y9el&sz=w1200";
+PHOTO["photos/p95-chickens-lego.jpg"] = "https://drive.google.com/thumbnail?id=1qBFRoU6n8aq29X0EbLzKQ7o50C9B0dp7&sz=w1200";
