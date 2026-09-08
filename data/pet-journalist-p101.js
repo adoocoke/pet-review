@@ -1,30 +1,18 @@
-ITEMS.push(
-{id:"jour-q1",exam:"PET",kind:"gap",title:"少年记者 第 1 空 or",meta:"PET 语法填空 · Exercise 1 · p.101",
-prompt:"Being young doesn't mean you don't know interesting things <span class=\"blank\">1</span> have opinions that count.",
-options:[],answer:"or",fill:"or",
-ok:"两件并列的事用 or：知道有趣的事，或有值得听的看法。",
-bad:"书上先写了 but。but 会把前后变成转折，这里是并列。",
-note:"<p>don't know interesting things <b>or</b> have opinions = 两样都能。</p><p>but 是「但是」，语气反了。</p>",
-photo:"photos/p101-journalist-garden.jpg"},
-{id:"jour-q3",exam:"PET",kind:"gap",title:"少年记者 第 3 空 when",meta:"PET 语法填空 · Exercise 1 · p.101",
-prompt:"By starting to write <span class=\"blank\">3</span> you are young, your writing skills will develop.",
-options:[],answer:"when",fill:"when",
-ok:"趁年轻开始写。",
-bad:"书上先写了 make。write make you are young 不成句。",
-note:"<p><b>when you are young</b> = 在你还年轻的时候。</p><p>make 是动词，这里要时间连词。</p>",
-photo:"photos/p101-journalist-garden.jpg"},
-{id:"jour-q5",exam:"PET",kind:"gap",title:"少年记者 第 5 空 Each",meta:"PET 语法填空 · Exercise 1 · p.101",
-prompt:"<span class=\"blank\">5</span> one of you could cover a different topic.",
-options:[],answer:"Each",fill:"Each",alts:["each"],
-ok:"你们每一个人可以各写一个话题。",
-bad:"书上先写了 Find。Find one of you 不像这句的开头。",
-note:"<p><b>Each one of you</b> = 你们每一个人。</p><p>大小写都行，each / Each 都算对。</p>",
-photo:"photos/p101-journalist-garden.jpg"},
-{id:"jour-q6",exam:"PET",kind:"gap",title:"少年记者 第 6 空 are",meta:"PET 语法填空 · Exercise 1 · p.101",
-prompt:"although a strong argument is important, so <span class=\"blank\">6</span> facts.",
-options:[],answer:"are",fill:"are",
-ok:"论点重要，事实也同样重要。",
-bad:"书上先写了 in。so in facts 不成句。",
-note:"<p>固定：<b>so are facts</b>。前面 is important，后面倒装 so are …。</p><p>so in / so age 都不对。</p>",
-photo:"photos/p101-journalist-garden.jpg"}
-);
+ITEMS.push({
+id:"jour",exam:"PET",kind:"gap",title:"少年记者",
+heading:"Teenager Journalist",
+passage:"PET 语法填空 p.101 少年记者",
+tag:"语法填空",
+meta:"PET 语法填空 · Exercise 1 · p.101",
+photo:"photos/p101-journalist-garden.jpg",
+article:"<p>Journalists can play an important part in our society, telling people what is happening in the world and helping them to understand events. Being young doesn't mean you don't know interesting things {{1}} have opinions that count.</p><p>Some people are naturally curious; they like to get to the bottom of things. Does that sound {{2}} you? Then you could be a journalist. By starting to write {{3}} you are young, your writing skills will develop, along {{4}} your ability to interview people. If you want to begin writing, you could start a newspaper with your friends. {{5}} one of you could cover a different topic or area that you think is interesting. Or you could enter this year's competition of journalists, with an article that is up to 500 words long.</p><p>Remember, although a strong argument is important, so {{6}} facts. Some of what you write may be opinion but facts can only ever be correct or incorrect.</p>",
+gaps:[
+{n:1,answer:"or",first:"but",ok:"两件并列的事用 or。",bad:"书上先写了 but。but 是转折，这里是并列。"},
+{n:2,answer:"like",given:true,ok:"sound like you = 听起来像你。"},
+{n:3,answer:"when",first:"make",ok:"趁年轻开始写。",bad:"书上先写了 make。write make you are young 不成句。"},
+{n:4,answer:"with",given:true,ok:"along with = 连同。"},
+{n:5,answer:"Each",alts:["each"],first:"Find",ok:"Each one of you = 你们每一个人。",bad:"书上先写了 Find。"},
+{n:6,answer:"are",first:"in",ok:"so are facts = 事实也同样重要。",bad:"书上先写了 in。so in facts 不成句。"}
+],
+note:"<p>整篇 6 个空都在文里。</p><p>第一次做对、直接留在下划线上：<b>like</b>、<b>with</b>。</p><p>要改的空：1 or（先写了 but）、3 when（先写了 make）、5 Each（先写了 Find）、6 are（先写了 in）。</p>"
+});
