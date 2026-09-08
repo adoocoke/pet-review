@@ -27,12 +27,17 @@ function renderByQ() {
     (map[it.passage] = map[it.passage] || []).push(it);
   });
   const names = Object.keys(map);
-  let html = '<div class="card"><p>按<b>原题</b>归堆。先选 KET 或 PET。</p>' + examTabBar(exam, ketN, petN, "byQExamTabs") + "</div>";
+  let html = '<div class="card"><p>按<b>原题</b>归堆。先选 KET 或 PET。语法填空点进去是整篇。</p>' + examTabBar(exam, ketN, petN, "byQExamTabs") + "</div>";
   if (!names.length) {
     html += '<div class="card"><p>' + exam + " 还没有原题。</p></div>";
   } else {
     html += names.map(function (name) {
       const list = map[name];
+      const head = list[0];
+      if (typeof isGapItem === "function" && isGapItem(head)) {
+        const rows = typeof listUnits === "function" ? listUnits(list) : list;
+        return rows.map(itemRow).join("");
+      }
       return '<div class="card"><h3 style="margin:0 0 8px">' + name + '</h3><p class="sub">' + list.length + " 道</p></div>" + list.map(itemRow).join("");
     }).join("");
   }
@@ -43,7 +48,8 @@ function renderByQ() {
   box.querySelectorAll(".item").forEach(function (el) {
     el.addEventListener("click", function () {
       const it = ITEMS.find(function (x) { return x.id === el.dataset.id; });
-      setNav(map[it.passage] || [it]);
+      const pack = (typeof isGapItem === "function" && isGapItem(it) && typeof gapGroup === "function") ? gapGroup(it) : (map[it.passage] || [it]);
+      setNav(pack);
       openDetail(el.dataset.id, "quiz");
     });
   });
@@ -54,7 +60,8 @@ function renderByExam() {
   const exam = byQExam();
   const ketN = countExam("KET");
   const petN = countExam("PET");
-  const list = ITEMS.filter(function (it) { return examOf(it) === exam; });
+  const raw = ITEMS.filter(function (it) { return examOf(it) === exam; });
+  const list = typeof listUnits === "function" ? listUnits(raw) : raw;
   let html = '<div class="card"><p>按<b>考试</b>看题。先选 KET 或 PET。</p>' + examTabBar(exam, ketN, petN, "byExamTabs") + "</div>";
   if (!list.length) html += '<div class="card"><p>' + exam + " 还没有题。</p></div>";
   else html += list.map(itemRow).join("");
@@ -64,7 +71,9 @@ function renderByExam() {
   });
   box.querySelectorAll(".item").forEach(function (el) {
     el.addEventListener("click", function () {
-      setNav(list);
+      const it = ITEMS.find(function (x) { return x.id === el.dataset.id; });
+      const pack = (typeof isGapItem === "function" && isGapItem(it) && typeof gapGroup === "function") ? gapGroup(it) : raw;
+      setNav(pack);
       openDetail(el.dataset.id, "quiz");
     });
   });
