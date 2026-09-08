@@ -73,9 +73,25 @@ const GROUP = {
   "pet40-q4": { passage: "PET 告示 p.40 二手车", tag: "告示理解", point: "call for information", exam: "PET" },
   "pet42-q4": { passage: "PET 告示 p.42 电影票", tag: "告示理解", point: "leave the ticket", exam: "PET" },
   "pet43-q1": { passage: "PET 告示 p.43 舞蹈课", tag: "告示理解", point: "explaining why", exam: "PET" },
-  "pet54-q4": { passage: "PET 匹配 p.54 夏令营", tag: "匹配理解", point: "skating + refreshments", exam: "PET" }
+  "pet54-q4": { passage: "PET 匹配 p.54 夏令营", tag: "匹配理解", point: "skating + refreshments", exam: "PET" },
+  "snow-q2": { passage: "PET 完型 p.93 室内雪仗", tag: "固定搭配", point: "stay as a ball", exam: "PET" },
+  "snow-q3": { passage: "PET 完型 p.93 室内雪仗", tag: "生词不会用", point: "frozen hands", exam: "PET" },
+  "snow-q4": { passage: "PET 完型 p.93 室内雪仗", tag: "生词不会用", point: "ball shape", exam: "PET" },
+  "snow-q6": { passage: "PET 完型 p.93 室内雪仗", tag: "固定搭配", point: "knocked over", exam: "PET" },
+  "clothes-q1": { passage: "PET 完型 p.93 自己做衣服", tag: "固定搭配", point: "patience and practice", exam: "PET" },
+  "clothes-q2": { passage: "PET 完型 p.93 自己做衣服", tag: "固定搭配", point: "benefits to doing", exam: "PET" },
+  "clothes-q5": { passage: "PET 完型 p.93 自己做衣服", tag: "固定搭配", point: "environmentally friendly", exam: "PET" },
+  "speak-q1": { passage: "PET 完型 p.94 公开演讲", tag: "生词不会用", point: "give a class", exam: "PET" },
+  "speak-q2": { passage: "PET 完型 p.94 公开演讲", tag: "固定搭配", point: "present homework", exam: "PET" },
+  "speak-q4": { passage: "PET 完型 p.94 公开演讲", tag: "固定搭配", point: "improve skills", exam: "PET" },
+  "speak-q5": { passage: "PET 完型 p.94 公开演讲", tag: "固定搭配", point: "have an effect on", exam: "PET" },
+  "chick-q6": { passage: "PET 完型 p.95 养鸡", tag: "固定搭配", point: "get to know", exam: "PET" },
+  "jour": { passage: "PET 语法填空 p.101 少年记者", tag: "语法填空", point: "or / when / Each / so are", exam: "PET" },
+  "gard": { passage: "PET 语法填空 p.101 学校菜园", tag: "语法填空", point: "or / them / increase in", exam: "PET" },
+  "nba": { passage: "PET 语法填空 p.102 NBA", tag: "语法填空", point: "sink in / was / in touch / know / but", exam: "PET" },
+  "live": { passage: "PET 语法填空 p.102 离不开的东西", tag: "语法填空", point: "pair / are / that / such as", exam: "PET" }
 };
-const TAG_ORDER = ["告示理解", "匹配理解", "介词用法", "语法错误", "固定搭配", "词组", "生词不会用"];
+const TAG_ORDER = ["告示理解", "匹配理解", "语法填空", "介词用法", "语法错误", "固定搭配", "词组", "生词不会用"];
 const EXAM_ORDER = ["KET", "PET"];
 ITEMS.forEach(function (it) {
   var g = GROUP[it.id] || {};
