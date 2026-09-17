@@ -20,6 +20,7 @@ function jumpAz(letter) {
   }
 }
 function bindAzRail(rail) {
+  if (!rail) return;
   function fromPoint(x, y) {
     const hit = document.elementFromPoint(x, y);
     if (hit && hit.dataset && hit.dataset.az) return hit.dataset.az;
@@ -42,23 +43,35 @@ function bindAzRail(rail) {
     if (L) jumpAz(L);
   }, { passive: true });
 }
+if (typeof cardFilter === "undefined") var cardFilter = "PET";
 function renderCards() {
   const box = document.getElementById("cards");
-  if (!box) return;
-  const sorted = CARDS.slice().sort(function (a, b) {
+  if (!box || typeof CARDS === "undefined") return;
+  const list = CARDS.filter(function (c) {
+    if (cardFilter === "PET") return c.exam === "PET";
+    if (cardFilter === "KET") return c.exam !== "PET";
+    return true;
+  }).slice().sort(function (a, b) {
     return String(a[1] || "").localeCompare(String(b[1] || ""), "en", { sensitivity: "base" });
   });
+  const nPet = CARDS.filter(function (c) { return c.exam === "PET"; }).length;
+  const nKet = CARDS.filter(function (c) { return c.exam !== "PET"; }).length;
   const have = {};
-  sorted.forEach(function (c) { have[cardLetter(c)] = true; });
+  list.forEach(function (c) { have[cardLetter(c)] = true; });
   const letters = ("#ABCDEFGHIJKLMNOPQRSTUVWXYZ").split("");
   let html = '<nav class="az-rail" id="azRail">';
   letters.forEach(function (L) {
     html += '<b data-az="' + L + '" class="' + (have[L] ? "" : "off") + '">' + L + "</b>";
   });
-  html += '</nav><div class="cards-list">';
-  html += '<div class="card"><p>共 <b>' + sorted.length + '</b> 张。右边字母点一下，或顺着滑。</p></div>';
+  html += "</nav><div class=\"cards-list\">";
+  html += '<div class="card"><p>红笔生词在「PET 生词」。先看中文，点卡片看英文。</p><div class="row">';
+  html += '<button class="ghost' + (cardFilter === "PET" ? " primary" : "") + '" data-cf="PET">PET 生词 ' + nPet + "</button>";
+  html += '<button class="ghost' + (cardFilter === "KET" ? " primary" : "") + '" data-cf="KET">KET ' + nKet + "</button>";
+  html += '<button class="ghost' + (cardFilter === "ALL" ? " primary" : "") + '" data-cf="ALL">全部 ' + CARDS.length + "</button>";
+  html += '<button class="primary" id="goDrill">去练错词</button>';
+  html += "</div><p class=\"sub\">这一屏 " + list.length + " 张。右边字母点一下，或顺着滑。</p></div>";
   let last = "";
-  sorted.forEach(function (c) {
+  list.forEach(function (c) {
     const L = cardLetter(c);
     if (L !== last) {
       html += '<div class="card-letter" id="card-' + L + '">' + L + "</div>";
@@ -68,6 +81,14 @@ function renderCards() {
   });
   html += "</div>";
   box.innerHTML = html;
+  box.querySelectorAll("[data-cf]").forEach(function (b) {
+    b.onclick = function () { cardFilter = b.dataset.cf; renderCards(); };
+  });
+  const go = document.getElementById("goDrill");
+  if (go) go.onclick = function () {
+    const tab = document.querySelector('#mainTabs button[data-tab="drill"]');
+    if (tab) tab.click();
+  };
   box.querySelectorAll(".flip").forEach(function (card) {
     card.innerHTML = '<div class="front"><div class="cn">' + card.dataset.front + '</div><div class="hint">点击看英文</div></div><div class="back" hidden><div class="en">' + card.dataset.back + '</div><div class="hint">' + card.dataset.hint + "</div></div>";
     card.onclick = function () {
