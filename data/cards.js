@@ -136,3 +136,8 @@ CARDS.push(
   for(;i<CARDS.length;i++) if(CARDS[i][1]==="employees") break;
   for(;i<CARDS.length;i++) CARDS[i].exam="PET";
 })();
+(function(){
+  var set={spend:1,activity:1,experience:1,create:1,language:1,suitable:1,competition:1,skill:1,special:1,actually:1,available:1,problem:1,design:1,allow:1,explain:1,produce:1,discover:1,develop:1};
+  var i=0;
+  for(;i<CARDS.length;i++) if(set[CARDS[i][1]]) CARDS[i].src="dictation";
+})();
