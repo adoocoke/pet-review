@@ -129,7 +129,18 @@ CARDS.push(
 ["解释","explain","explain the question"],
 ["生产","produce","produce films"],
 ["发现","discover","discover a new place"],
-["发展","develop","develop a skill · 不是 delete"]
+["发展","develop","develop a skill · 不是 delete"],
+["专业的","professional","a professional player · 不是 profession"],
+["完美的","perfect","a perfect day · 不是 perfit"],
+["期待","expect","expect a festival"],
+["剧院","theatre","go to the theatre"],
+["兴趣","interest","have an interest in"],
+["商业","business","do business"],
+["看起来","seem","seem happy"],
+["场所","site","a historic site"],
+["建议（动词）","suggest","suggest a plan · 不是 advice"],
+["专家","expert","an expert in"],
+["研究","research","do research · 不是 reasrch"]
 );
 (function(){
   var i=0;
@@ -137,7 +148,7 @@ CARDS.push(
   for(;i<CARDS.length;i++) CARDS[i].exam="PET";
 })();
 (function(){
-  var set={spend:1,activity:1,experience:1,create:1,language:1,suitable:1,competition:1,skill:1,special:1,actually:1,available:1,problem:1,design:1,allow:1,explain:1,produce:1,discover:1,develop:1};
+  var set={spend:1,activity:1,experience:1,create:1,language:1,suitable:1,competition:1,skill:1,special:1,actually:1,available:1,problem:1,design:1,allow:1,explain:1,produce:1,discover:1,develop:1,professional:1,perfect:1,expect:1,theatre:1,interest:1,business:1,seem:1,site:1,suggest:1,expert:1,research:1};
   var i=0;
   for(;i<CARDS.length;i++) if(set[CARDS[i][1]]) CARDS[i].src="dictation";
 })();
