@@ -5,7 +5,8 @@
     available: 1, problem: 1, design: 1, allow: 1, explain: 1,
     produce: 1, discover: 1, develop: 1,
     professional: 1, perfect: 1, expect: 1, theatre: 1, interest: 1,
-    business: 1, seem: 1, site: 1, suggest: 1, expert: 1, research: 1
+    business: 1, seem: 1, site: 1, suggest: 1, expert: 1, research: 1,
+    forget: 1, keen: 1, organise: 1, festival: 1, collect: 1, advice: 1, scientist: 1
   };
   let poolKind = "dictation";
   let queue = [];

@@ -140,7 +140,14 @@ CARDS.push(
 ["场所","site","a historic site"],
 ["建议（动词）","suggest","suggest a plan · 不是 advice"],
 ["专家","expert","an expert in"],
-["研究","research","do research · 不是 reasrch"]
+["研究","research","do research · 不是 reasrch"],
+["忘记","forget","forget the word · 不是 forgee"],
+["热衷的","keen","keen on wildlife · 不是 been"],
+["组织","organise","organise a session"],
+["节日","festival","a music festival · 也可 holiday"],
+["收集","collect","collect stamps · 不是 collet"],
+["建议（名词）","advice","give advice · 不是 advise"],
+["科学家","scientist","a scientist · 不是 sidentist"]
 );
 (function(){
   var i=0;
@@ -148,7 +155,7 @@ CARDS.push(
   for(;i<CARDS.length;i++) CARDS[i].exam="PET";
 })();
 (function(){
-  var set={spend:1,activity:1,experience:1,create:1,language:1,suitable:1,competition:1,skill:1,special:1,actually:1,available:1,problem:1,design:1,allow:1,explain:1,produce:1,discover:1,develop:1,professional:1,perfect:1,expect:1,theatre:1,interest:1,business:1,seem:1,site:1,suggest:1,expert:1,research:1};
+  var set={spend:1,activity:1,experience:1,create:1,language:1,suitable:1,competition:1,skill:1,special:1,actually:1,available:1,problem:1,design:1,allow:1,explain:1,produce:1,discover:1,develop:1,professional:1,perfect:1,expect:1,theatre:1,interest:1,business:1,seem:1,site:1,suggest:1,expert:1,research:1,forget:1,keen:1,organise:1,festival:1,collect:1,advice:1,scientist:1};
   var i=0;
   for(;i<CARDS.length;i++) if(set[CARDS[i][1]]) CARDS[i].src="dictation";
 })();
