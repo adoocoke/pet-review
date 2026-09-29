@@ -4,6 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta http-equiv="Cache-Control" content="no-cache"/>
+<meta name="theme-color" content="#c9842a"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="KET/PET"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png"/>
 <title>KET/PET 错题 Review</title>
 <style>
 :root{--bg:#f4f1ea;--paper:#fffdf8;--ink:#1f2933;--muted:#5b6773;--line:#e4ddd2;--red:#c0392b;--green:#1f7a4d;--gold:#c9842a;--soft-red:#fdecea;--soft-green:#e8f6ee;--soft-blue:#eaf2fb}
@@ -71,7 +79,7 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 
 </style></head>
 <body>
-<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.23.0</span></h1><p class="sub">按题目 · 按知识点 · 按考试 · 原题照片 · 进度同步 · <a href="calendar.html">打卡日历</a></p></header>
+<header><p class="kicker">KET / PET REVIEW</p><h1>产生错误的题目 <span class="ver">v0.24.0</span></h1><p class="sub">按题目 · 按知识点 · 按考试 · 原题照片 · 进度同步 · <a href="calendar.html">打卡日历</a></p></header>
 <main>
 <div class="tabs" id="mainTabs">
 <button class="active" data-tab="list">今日复习</button>
@@ -128,61 +136,68 @@ ol.steps{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
 </div>
 </section>
 </main>
-<script src="data.js?v=0.23.0"></script>
-<script src="data/p135-central-park.js?v=0.23.0"></script>
-<script src="data/mail-jerry-bill.js?v=0.23.0"></script>
-<script src="data/p141-holidays.js?v=0.23.0"></script>
-<script src="data/mail-hospital.js?v=0.23.0"></script>
-<script src="data/p147-dolphin.js?v=0.23.0"></script>
-<script src="data/p153-first-films.js?v=0.23.0"></script>
-<script src="data/mail-jessie-job.js?v=0.23.0"></script>
-<script src="data/tennis.js?v=0.23.0"></script>
-<script src="data/sharks-whales.js?v=0.23.0"></script>
-<script src="data/world-hotter.js?v=0.23.0"></script>
-<script src="data/bactrian-camels.js?v=0.23.0"></script>
-<script src="data/action-figures.js?v=0.23.0"></script>
-<script src="data/gwen-stefani.js?v=0.23.0"></script>
-<script src="data/ukulele.js?v=0.23.0"></script>
-<script src="data/sophia-anne.js?v=0.23.0"></script>
-<script src="data/jenny-mr-brown.js?v=0.23.0"></script>
-<script src="data/eric-frank.js?v=0.23.0"></script>
-<script src="data/beatrix-potter.js?v=0.23.0"></script>
-<script src="data/hanna-bookstore.js?v=0.23.0"></script>
-<script src="data/first-films-p111.js?v=0.23.0"></script>
-<script src="data/philip-stairs.js?v=0.23.0"></script>
-<script src="data/thanksgiving.js?v=0.23.0"></script>
-<script src="data/jack-jenny.js?v=0.23.0"></script>
-<script src="data/zoo.js?v=0.23.0"></script>
-<script src="data/justin-tommy.js?v=0.23.0"></script>
-<script src="data/jellyfish.js?v=0.23.0"></script>
-<script src="data/amy-sarah.js?v=0.23.0"></script>
-<script src="data/pet-notices-p35.js?v=0.23.0"></script>
-<script src="data/pet-notices-p37.js?v=0.23.0"></script>
-<script src="data/pet-notices-p38.js?v=0.23.0"></script>
-<script src="data/pet-notices-p40.js?v=0.23.0"></script>
-<script src="data/pet-notices-p42.js?v=0.23.0"></script>
-<script src="data/pet-notices-p43.js?v=0.23.0"></script>
-<script src="data/pet-camps-p54.js?v=0.23.0"></script>
-<script src="data/pet-snowball-p93.js?v=0.23.0"></script>
-<script src="data/pet-clothes-p93.js?v=0.23.0"></script>
-<script src="data/pet-speaking-p94.js?v=0.23.0"></script>
-<script src="data/pet-chickens-p95.js?v=0.23.0"></script>
-<script src="data/pet-journalist-p101.js?v=0.23.0"></script>
-<script src="data/pet-garden-p101.js?v=0.23.0"></script>
-<script src="data/pet-nba-p102.js?v=0.23.0"></script>
-<script src="data/pet-livewithout-p102.js?v=0.23.0"></script>
-<script src="data/pet-passages.js?v=0.23.0"></script>
-<script src="data/passages.js?v=0.23.0"></script>
-<script src="data/cards.js?v=0.23.0"></script>
-<script src="group.js?v=0.23.0"></script>
-<script src="photos-drive.js?v=0.23.0"></script>
-<script src="srs.js?v=0.23.0"></script>
-<script src="sync.js?v=0.23.0"></script>
-<script src="reason.js?v=0.23.0"></script>
-<script src="app.js?v=0.23.0"></script>
-<script src="gap-ui.js?v=0.23.0"></script>
-<script src="exam-tabs.js?v=0.23.0"></script>
-<script src="list-rail.js?v=0.23.0"></script>
-<script src="cards-ui.js?v=0.23.0"></script>
-<script src="drill-ui.js?v=0.23.0"></script>
+<script src="data.js?v=0.24.0"></script>
+<script src="data/p135-central-park.js?v=0.24.0"></script>
+<script src="data/mail-jerry-bill.js?v=0.24.0"></script>
+<script src="data/p141-holidays.js?v=0.24.0"></script>
+<script src="data/mail-hospital.js?v=0.24.0"></script>
+<script src="data/p147-dolphin.js?v=0.24.0"></script>
+<script src="data/p153-first-films.js?v=0.24.0"></script>
+<script src="data/mail-jessie-job.js?v=0.24.0"></script>
+<script src="data/tennis.js?v=0.24.0"></script>
+<script src="data/sharks-whales.js?v=0.24.0"></script>
+<script src="data/world-hotter.js?v=0.24.0"></script>
+<script src="data/bactrian-camels.js?v=0.24.0"></script>
+<script src="data/action-figures.js?v=0.24.0"></script>
+<script src="data/gwen-stefani.js?v=0.24.0"></script>
+<script src="data/ukulele.js?v=0.24.0"></script>
+<script src="data/sophia-anne.js?v=0.24.0"></script>
+<script src="data/jenny-mr-brown.js?v=0.24.0"></script>
+<script src="data/eric-frank.js?v=0.24.0"></script>
+<script src="data/beatrix-potter.js?v=0.24.0"></script>
+<script src="data/hanna-bookstore.js?v=0.24.0"></script>
+<script src="data/first-films-p111.js?v=0.24.0"></script>
+<script src="data/philip-stairs.js?v=0.24.0"></script>
+<script src="data/thanksgiving.js?v=0.24.0"></script>
+<script src="data/jack-jenny.js?v=0.24.0"></script>
+<script src="data/zoo.js?v=0.24.0"></script>
+<script src="data/justin-tommy.js?v=0.24.0"></script>
+<script src="data/jellyfish.js?v=0.24.0"></script>
+<script src="data/amy-sarah.js?v=0.24.0"></script>
+<script src="data/pet-notices-p35.js?v=0.24.0"></script>
+<script src="data/pet-notices-p37.js?v=0.24.0"></script>
+<script src="data/pet-notices-p38.js?v=0.24.0"></script>
+<script src="data/pet-notices-p40.js?v=0.24.0"></script>
+<script src="data/pet-notices-p42.js?v=0.24.0"></script>
+<script src="data/pet-notices-p43.js?v=0.24.0"></script>
+<script src="data/pet-camps-p54.js?v=0.24.0"></script>
+<script src="data/pet-snowball-p93.js?v=0.24.0"></script>
+<script src="data/pet-clothes-p93.js?v=0.24.0"></script>
+<script src="data/pet-speaking-p94.js?v=0.24.0"></script>
+<script src="data/pet-chickens-p95.js?v=0.24.0"></script>
+<script src="data/pet-journalist-p101.js?v=0.24.0"></script>
+<script src="data/pet-garden-p101.js?v=0.24.0"></script>
+<script src="data/pet-nba-p102.js?v=0.24.0"></script>
+<script src="data/pet-livewithout-p102.js?v=0.24.0"></script>
+<script src="data/pet-passages.js?v=0.24.0"></script>
+<script src="data/passages.js?v=0.24.0"></script>
+<script src="data/cards.js?v=0.24.0"></script>
+<script src="group.js?v=0.24.0"></script>
+<script src="photos-drive.js?v=0.24.0"></script>
+<script src="srs.js?v=0.24.0"></script>
+<script src="sync.js?v=0.24.0"></script>
+<script src="reason.js?v=0.24.0"></script>
+<script src="app.js?v=0.24.0"></script>
+<script src="gap-ui.js?v=0.24.0"></script>
+<script src="exam-tabs.js?v=0.24.0"></script>
+<script src="list-rail.js?v=0.24.0"></script>
+<script src="cards-ui.js?v=0.24.0"></script>
+<script src="drill-ui.js?v=0.24.0"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  });
+}
+</script>
 </body></html>
