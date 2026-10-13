@@ -1,6 +1,6 @@
 # pet-review
 
-**当前版本 0.24.0**（2026-09-29）  
+**当前版本 0.25.0**（2026-10-13）  
 进度键：浏览器 `localStorage` → `pet-review-v4`（兼容读入旧的 `pet-review-v3`）  
 云端进度：仓库根目录 `progress.json`
 
@@ -35,6 +35,12 @@
 ## 版本记录
 
 小改文档 / 修链接用第三位（0.4.1）；加题、加功能用第二位（0.13.0）。
+
+### 0.25.0 · 2026-10-13
+
+- PET Part 5 专项训练 1 · p.70 Emma Watson：只收双圈/改笔
+- 第 1 题 trained（误 learned）、第 2 题 series（误 group）、第 3 题 made（误 produced）、第 4 题 continued（误 stayed）、第 6 题 several（误 lots of）
+- 第 5 题 spent 只圈对的，不入
 
 ### 0.24.0 · 2026-09-29
 
